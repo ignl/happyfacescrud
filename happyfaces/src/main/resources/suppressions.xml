@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE suppressions PUBLIC
+    "-//Puppy Crawl//DTD Suppressions 1.1//EN"
+    "http://www.puppycrawl.com/dtds/suppressions_1_1.dtd">
+
+<suppressions>
+	<!-- do not check Test classes. -->
+    <suppress files=".*Test\.java" checks="."/>
+	
+	<!-- do not check query dsl generated classes.. -->
+    <suppress files="QBaseEntity\.java" checks="."/> 
+    <suppress files="QCustomer\.java" checks="."/> 
+    <suppress files="QIncident\.java" checks="."/> 
+    <suppress files="QTimelineEntry\.java" checks="."/> 
+    <suppress files="QUser\.java" checks="."/> 
+</suppressions>

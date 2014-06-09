@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<f:view locale="#{sessionPreferences.locale}">
+	<ui:insert name="metadata"></ui:insert>
+	<h:head>
+		<title>#{messages['application.title']}</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="pageTitle" content="${pageTitle}" />
+		<link href="#{facesContext.externalContext.requestContextPath}/resources/style.css" rel="styleSheet" type="text/css" />
+		<ui:insert name="head"></ui:insert>
+
+		<script type="text/javascript">
+			var startFrom = #{sessionPreferences.getSessionDuration()}; // Total session time out setting eg 10 sec, Real implementation assign values from jsf controller
+			var loopTill = #{sessionPreferences.getSessionTimeoutAlertDuration()}; //Count down degins from 6 sec and starts after 4 sec ie 10-6
+			var reduce = 1;
+			var handleDialog = null;
+			var redirectPage = "#{request.contextPath}/logout.jsf";
+			var countDownDiv = "dialog-countdown";
+
+			function resetPageTimer() {
+				timeoutDialog.hide();
+				startPageTimer(startFrom, loopTill);
+				clearInterval(handleDialog);
+			}
+
+			function startDialogTimer(wCounter, timeOutPage) {
+				var e = null;
+				if (!e)
+					e = document.getElementById(countDownDiv);
+				e.innerHTML = wCounter;
+				handleDialog = setInterval(function() {
+					if (wCounter == 0) {
+						clearInterval(handleDialog);
+						window.location.href = timeOutPage;
+					} else {
+						wCounter -= reduce;
+						e.innerHTML = wCounter;
+					}
+				}, reduce * 1000);
+			}
+
+			function startPageTimer(wFrom, wReach) {
+				var handle = null;
+				handle = setInterval(function() {
+					if (wFrom == wReach) {
+						clearInterval(handle);
+						timeoutDialog.show();
+						startDialogTimer(loopTill, redirectPage);
+					} else {
+						wFrom -= reduce;
+					}
+				}, reduce * 1000);
+			}
+			startPageTimer(startFrom, loopTill);
+		</script>
+	</h:head>
+	<h:body>
+		<p:layout fullPage="true" id="page">
+			<p:layoutUnit id="top" position="north">
+				<ui:include src="header.xhtml" />
+			</p:layoutUnit>
+			<p:layoutUnit id="left" position="west" scrollable="true">
+				<ui:include src="menu.xhtml" />
+			</p:layoutUnit>
+			<p:layoutUnit id="center" position="center" scrollable="true" header="#{pageTitle}">
+				<ui:insert name="content"></ui:insert>
+			</p:layoutUnit>
+			<p:layoutUnit id="bottom" position="south">
+				<ui:include src="footer.xhtml" />
+			</p:layoutUnit>
+		</p:layout>
+		
+			<p:dialog header="#{messages['session.popup.title']}" widgetVar="timeoutDialog" showEffect="fade" hideEffect="fade" modal="true" width="400" height="200"
+				closable="false" draggable="false" resizable="false" appendTo="@(body)">
+				<h:form>
+					<p>
+						<span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 50px 0;"></span>
+							#{messages['session.loggedOutIn']} <span id="dialog-countdown" style="font-weight: bold"></span> #{messages['session.seconds']}.
+					</p>
+					<p>#{messages['session.continue']}</p>
+					<p:commandButton value="#{messages['session.keepWorking']}" action="#{sessionPreferences.keepSessionAlive}" oncomplete="resetPageTimer()" />
+					<p:commandButton value="#{messages['session.logout']}" action="#{loginBean.logout}" oncomplete="resetPageTimer()" ajax="false" />
+				</h:form>
+			</p:dialog>
+
+	</h:body>
+</f:view>
+</html>

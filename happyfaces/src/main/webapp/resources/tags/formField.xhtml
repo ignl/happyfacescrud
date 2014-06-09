@@ -1,0 +1,209 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:cc="http://xmlns.jcp.org/jsf/composite">
+
+	<cc:interface componentType="formField">
+		<cc:attribute name="label" required="true" />
+		<cc:attribute name="field" required="true" />
+		<cc:attribute name="backingBean" required="false" />
+		<cc:attribute name="entity" required="false" />
+		<cc:attribute name="required" default="false" />
+		<cc:attribute name="size" default="20" />
+		<cc:attribute name="maxlength" default="40" />
+		<cc:attribute name="deleteButton" default="true" />
+		<cc:attribute name="time" default="false" />
+		<cc:attribute name="listType" default="simpleList" />
+		<cc:attribute name="showButtonAddNew" default="true" />
+		<cc:attribute name="disabled" default="false" />
+		<cc:attribute name="textArea" default="false" />
+		<cc:attribute name="cols" default="20" />
+		<cc:attribute name="rows" default="5" />
+	</cc:interface>
+	
+	<cc:implementation>
+		<!--  If the value binding is a string, display an inputText field. -->
+		<ui:fragment rendered="#{cc.isText(cc.attrs.field)}">
+			<h:panelGrid columns="2">
+				<p:outputLabel for="#{cc.attrs.id}_text" value="#{cc.attrs.label}" />
+				<p:inputText rendered="#{not cc.attrs.textArea and cc.editMode}" id="#{cc.attrs.id}_text" label="#{cc.attrs.label}" disabled="#{cc.attrs.disabled}" value="#{cc.entityFromBackingBeanOrAttribute[cc.attrs.field]}" required="#{cc.attrs.required}" size="#{cc.attrs.size}"
+					maxlength="#{cc.attrs.maxlength}" />
+				<p:inputTextarea rendered="#{cc.attrs.textArea and cc.editMode}" id="#{cc.attrs.id}_textArea" label="#{cc.attrs.label}" disabled="#{cc.attrs.disabled}" value="#{cc.entityFromBackingBeanOrAttribute[cc.attrs.field]}" required="#{cc.attrs.required}" cols="#{cc.attrs.cols}" rows="#{cc.attrs.rows}"
+					maxlength="#{cc.attrs.maxlength}" />
+				<h:outputText rendered="#{not cc.editMode}" value="#{cc.entityFromBackingBeanOrAttribute[cc.attrs.field]}" style="font-weight:bold;" />
+				<cc:insertChildren />
+			</h:panelGrid>
+		</ui:fragment>
+		
+				<!--  If the value binding is a number, display an input number spinner. -->
+		<ui:fragment rendered="#{cc.isInteger(cc.attrs.field)}">
+			<h:panelGrid columns="2">
+				<p:outputLabel for="#{cc.attrs.id}_int" value="#{cc.attrs.label}" />
+				<p:spinner rendered="#{cc.editMode}" id="#{cc.attrs.id}_int" label="#{cc.attrs.label}" disabled="#{cc.attrs.disabled}" value="#{cc.entityFromBackingBeanOrAttribute[cc.attrs.field]}" required="#{cc.attrs.required}"/>
+				<h:outputText rendered="#{not cc.editMode}" value="#{cc.entityFromBackingBeanOrAttribute[cc.attrs.field]}" style="font-weight:bold;" />
+				<cc:insertChildren />
+			</h:panelGrid>
+		</ui:fragment>
+
+		<ui:fragment rendered="#{cc.isByte(cc.attrs.field)}">
+			<h:panelGrid columns="2">
+				<p:outputLabel for="#{cc.attrs.id}_byte" value="#{cc.attrs.label}" />
+				<p:spinner rendered="#{cc.editMode}" id="#{cc.attrs.id}_byte" label="#{cc.attrs.label}" disabled="#{cc.attrs.disabled}" value="#{cc.entityFromBackingBeanOrAttribute[cc.attrs.field]}" required="#{cc.attrs.required}"/>
+				<h:outputText rendered="#{not cc.editMode}" value="#{cc.entityFromBackingBeanOrAttribute[cc.attrs.field]}" style="font-weight:bold;" />
+				<cc:insertChildren />
+			</h:panelGrid>
+		</ui:fragment>
+		
+		<ui:fragment rendered="#{cc.isLong(cc.attrs.field)}">
+			<h:panelGrid columns="2">
+				<p:outputLabel for="#{cc.attrs.id}_long" value="#{cc.attrs.label}" />
+				<p:spinner rendered="#{cc.editMode}" id="#{cc.attrs.id}_long" label="#{cc.attrs.label}" disabled="#{cc.attrs.disabled}" value="#{cc.entityFromBackingBeanOrAttribute[cc.attrs.field]}" required="#{cc.attrs.required}"/>
+				<h:outputText rendered="#{not cc.editMode}" value="#{cc.entityFromBackingBeanOrAttribute[cc.attrs.field]}" style="font-weight:bold;" />
+				<cc:insertChildren />
+			</h:panelGrid>
+		</ui:fragment>
+
+		<ui:fragment rendered="#{cc.isShort(cc.attrs.field)}">
+			<h:panelGrid columns="2">
+				<p:outputLabel for="#{cc.attrs.id}_short" value="#{cc.attrs.label}" />
+				<p:spinner rendered="#{cc.editMode}" id="#{cc.attrs.id}_short" label="#{cc.attrs.label}" disabled="#{cc.attrs.disabled}" value="#{cc.entityFromBackingBeanOrAttribute[cc.attrs.field]}" required="#{cc.attrs.required}"/>
+				<h:outputText rendered="#{not cc.editMode}" value="#{cc.entityFromBackingBeanOrAttribute[cc.attrs.field]}" style="font-weight:bold;" />
+				<cc:insertChildren />
+			</h:panelGrid>
+		</ui:fragment>
+
+		<!--  If the value binding is a rational number, display an input text field. -->
+		<ui:fragment rendered="#{cc.isBigDecimal(cc.attrs.field)}">
+			<h:panelGrid columns="2">
+				<p:outputLabel for="#{cc.attrs.id}_bigDecimal" value="#{cc.attrs.label}" />
+				<p:inputText rendered="#{cc.editMode}" id="#{cc.attrs.id}_bigDecimal" label="#{cc.attrs.label}" disabled="#{cc.attrs.disabled}" value="#{cc.entityFromBackingBeanOrAttribute[cc.attrs.field]}" required="#{cc.attrs.required}" size="5" maxlength="#{cc.attrs.maxlength}" />
+				<h:outputText rendered="#{not cc.editMode}" value="#{cc.entityFromBackingBeanOrAttribute[cc.attrs.field]}" style="font-weight:bold;" />
+				<cc:insertChildren />
+			</h:panelGrid>
+		</ui:fragment>
+		
+		<ui:fragment rendered="#{cc.isDouble(cc.attrs.field)}">
+			<h:panelGrid columns="2">
+				<p:outputLabel for="#{cc.attrs.id}_double" value="#{cc.attrs.label}" />
+				<p:inputText rendered="#{cc.editMode}" id="#{cc.attrs.id}_double" label="#{cc.attrs.label}" disabled="#{cc.attrs.disabled}" value="#{cc.entityFromBackingBeanOrAttribute[cc.attrs.field]}" required="#{cc.attrs.required}" size="5"/>
+				<h:outputText rendered="#{not cc.editMode}" value="#{cc.entityFromBackingBeanOrAttribute[cc.attrs.field]}" style="font-weight:bold;" />
+				<cc:insertChildren />
+			</h:panelGrid>
+		</ui:fragment>
+
+		<ui:fragment rendered="#{cc.isFloat(cc.attrs.field)}">
+			<h:panelGrid columns="2">
+				<p:outputLabel for="#{cc.attrs.id}_float" value="#{cc.attrs.label}" />
+				<p:inputText rendered="#{cc.editMode}" id="#{cc.attrs.id}_float" label="#{cc.attrs.label}" disabled="#{cc.attrs.disabled}" value="#{cc.entityFromBackingBeanOrAttribute[cc.attrs.field]}" required="#{cc.attrs.required}" size="5" maxlength="#{cc.attrs.maxlength}"/>
+				<h:outputText rendered="#{not cc.editMode}" value="#{cc.entityFromBackingBeanOrAttribute[cc.attrs.field]}" style="font-weight:bold;" />
+				<cc:insertChildren />
+			</h:panelGrid>
+		</ui:fragment>
+
+		<!--  If the value binding is a boolean, display a selectBooleanCheckbox field. -->
+		<ui:fragment rendered="#{cc.isBoolean(cc.attrs.field)}">
+			<h:panelGrid columns="2">
+				<p:outputLabel for="#{cc.attrs.id}_boolean" value="#{cc.attrs.label}" />  
+	
+				<p:selectBooleanCheckbox id="#{cc.attrs.id}_boolean" rendered="#{cc.editMode}" label="#{cc.attrs.label}" disabled="#{cc.attrs.disabled}" value="#{cc.entityFromBackingBeanOrAttribute[cc.attrs.field]}" required="#{cc.attrs.required}">
+				</p:selectBooleanCheckbox>
+	
+				<ui:fragment rendered="#{not cc.editMode and cc.attrs.isMessage}">
+					<c:set var="fieldValue" value="#{cc.entityFromBackingBeanOrAttribute[cc.attrs.field]}" />
+					<h:outputText rendered="#{fieldValue != null and fieldValue.toString() == 'true' and not cc.editMode}" value="#{messages['commons.yes']}" style="font-weight:bold;" />
+					<h:outputText rendered="#{fieldValue != null and fieldValue.toString() == 'false' and not cc.editMode}" value="#{messages['commons.no']}" style="font-weight:bold;" />
+					<!-- toString was some workaround - todo: maybe works without toString  -->
+					<h:outputText rendered="#{fieldValue != null and fieldValue.toString() != 'true' and fieldValue.toString() != 'false' and not cc.editMode}" value="#{messages[cc.entityFromBackingBeanOrAttribute[cc.attrs.field]]}" style="font-weight:bold;" />
+				</ui:fragment>
+	
+				<h:outputText rendered="#{not cc.editMode and not cc.attrs.isMessage}" value="#{cc.entityFromBackingBeanOrAttribute[cc.attrs.field]}" style="font-weight:bold;" />
+	
+				<cc:insertChildren />
+			</h:panelGrid>
+		</ui:fragment>
+
+		<!--  If the value binding is a date, display a rich:calendar field. -->
+		<ui:fragment rendered="#{cc.isDate(cc.attrs.field)}">
+			<h:panelGrid columns="2">
+				<p:outputLabel for="#{cc.attrs.id}_date" value="#{cc.attrs.label}" />
+				<p:calendar id="#{cc.attrs.id}_date" rendered="#{cc.editMode}" label="#{cc.attrs.label}" value="#{cc.entityFromBackingBeanOrAttribute[cc.attrs.field]}" disabled="#{cc.attrs.disabled}" pattern="#{cc.attrs.datePattern}" required="#{cc.attrs.required}" />
+				<h:outputText rendered="#{not cc.editMode}" value="#{cc.entityFromBackingBeanOrAttribute[cc.attrs.field]}" style="font-weight:bold;">
+					<f:convertDateTime type="date" pattern="#{datePattern}" />
+				</h:outputText>
+				<cc:insertChildren />
+			</h:panelGrid>
+		</ui:fragment>
+
+		<!--  If the value binding is an enum, display a drop down. -->
+		<ui:fragment rendered="#{cc.isEnum(cc.attrs.field)}">
+			<h:panelGrid columns="2">
+				<p:outputLabel for="#{cc.attrs.id}_enum" value="#{cc.attrs.label}" />  
+				<p:selectOneMenu rendered="#{cc.editMode}" id="#{cc.attrs.id}_enum" label="#{cc.attrs.label}" disabled="#{cc.attrs.disabled}" value="#{cc.entityFromBackingBeanOrAttribute[cc.attrs.field]}" required="#{cc.attrs.required}">
+						<f:selectItem itemLabel="" itemValue="" />
+						<f:selectItems value="#{cc.getEnumConstants(cc.attrs.field)}" var="enumElement" itemLabel="#{messages[enumElement.label]}" />
+				</p:selectOneMenu>
+				<h:outputText id="#{cc.attrs.id}_enumView" rendered="#{not cc.editMode}" value="#{messages[cc.entityFromBackingBeanOrAttribute[cc.attrs.field].label]}" style="font-weight:bold;" />
+				<cc:insertChildren />
+			</h:panelGrid>
+		</ui:fragment>
+
+		<!--  If the value binding is a List, display a panel with list of entities. -->
+		<ui:fragment rendered="#{cc.isList(cc.attrs.field)}">
+
+			<ui:fragment rendered="#{cc.attrs.listType == 'simpleList'}">
+				<h:panelGrid columns="2">
+					<h:outputLabel value="#{cc.attrs.label}" />
+					<h:panelGrid>
+						<p:dataTable id="#{cc.attrs.id}_datatable" value="#{cc.entityFromBackingBeanOrAttribute[cc.attrs.field]}" var="listElement">
+							<c:forEach items="#{cc.attrs.showFields.split(';')}" var="fieldToShow">
+								<c:set var="headerAndValue" value="#{fieldToShow.split(',')}" />
+								<c:set var="style" value="text-align:left;" />
+								<c:if test="#{'right'.equals(headerAndValue[2])}">
+									<c:set var="style" value="text-align:right;" />
+								</c:if>
+								<p:column width="100" style="${style}">
+									<f:facet name="header">
+										<h:outputText value="#{messages[headerAndValue[0]]}" />
+									</f:facet>
+									<c:if test="#{headerAndValue[1].contains('.')}">
+										<c:set var="entityAndField" value="#{headerAndValue[1].split('\\.')}" />
+										<c:set var="value" value="#{listElement[entityAndField[0]][entityAndField[1]]}" />
+									</c:if>
+									<c:if test="#{not headerAndValue[1].contains('.')}">
+										<c:set var="value" value="#{listElement[headerAndValue[1]]}"></c:set>
+									</c:if>
+									<c:if test="#{'msg'.equals(headerAndValue[2])}">
+										<c:set var="value" value="#{messages[listElement[headerAndValue[1]].label]}" />
+									</c:if>
+									<h:outputText style="text-align:right;" value="#{value}" />
+								</p:column>
+							</c:forEach>
+	
+							<p:column rendered="#{cc.attrs.deleteButton and cc.editMode}">
+								<p:tooltip for="deletelink" value="#{messages['commons.delete']}" showEffect="slide" hideEffect="slide"/>
+								<h:commandLink id="deletelink" action="#{cc.backingBeanFromParentOrCurrent.delete(listElement.id)}" icon="ui-icon-trash" 
+									onclick="if(confirm('#{messages['commons.confirmDelete']}')){return true;}else{return false;}">
+								</h:commandLink>
+							</p:column>
+						</p:dataTable>
+						<p:commandButton rendered="#{cc.attrs.showButtonAddNew and cc.editMode and cc.entityFromBackingBeanOrAttribute.getId() != null}" value="#{messages['commons.addNew']}" onclick="alert('not implemented. formField.xhtml line 248')" />
+						<cc:insertChildren />
+					</h:panelGrid>
+				</h:panelGrid>
+			</ui:fragment>
+
+			<ui:fragment rendered="#{cc.attrs.listType=='pickUpList'}">
+				<h:panelGrid columns="2">
+					<p:outputLabel for="#{cc.attrs.id}_picklist" value="#{cc.attrs.label}" />  
+					<p:pickList id="#{cc.attrs.id}_picklist" value="#{cc.backingBeanFromParentOrCurrent.dualListModel}" label="#{cc.attrs.label}" var="elem" itemLabel="#{elem[cc.attrs.childField]}" itemValue="#{elem}" disabled="#{not cc.editMode}" >
+						<f:converter binding="#{entityConverter}" />
+					</p:pickList>
+				</h:panelGrid>
+			</ui:fragment>
+		</ui:fragment>
+		
+	</cc:implementation>
+
+</html>

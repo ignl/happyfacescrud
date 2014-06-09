@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:p="http://primefaces.org/ui" xmlns:e="http://primefaces.org/extension" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+<ui:composition>
+
+	<c:if test="${empty pdf}">
+		<c:set var="pdf" value="false" />
+	</c:if>
+
+	<c:if test="${empty edit}">
+		<c:set var="edit" value="true" />
+	</c:if>
+
+	<c:if test="${empty checkMany}">
+		<c:set var="checkMany" value="true" />
+	</c:if>
+
+	<c:if test="${empty renderExport}">
+		<c:set var="renderExport" value="true" />
+	</c:if>
+
+	<c:if test="${empty resultsId}">
+		<c:set var="resultsId" value="results" />
+	</c:if>
+
+	<c:if test="${empty formId}">
+		<c:set var="formId" value="#{resultsId}_form" />
+	</c:if>
+
+
+	<p:panel id="#{resultsId}_panel" width="100">
+
+		<h:form id="#{formId}" prependId="false" >
+			
+			<e:sortableDataTable id="datatable" var="entity" value="#{backingBean.lazyDataModel}" paginator="true" rows="10"  selection="#{backingBean.selectedEntities}"
+				paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" 
+				rowsPerPageTemplate="5,10,15" lazy="true" binding="#{backingBean.dataTable}">
+				<p:column selectionMode="multiple" style="width:2%" rendered="#{checkMany}" exportable="false"  />  
+				<ui:insert />
+			</e:sortableDataTable>
+
+			<h:panelGrid columns="2">
+				 <p:commandButton id="deleteEntitieslink" value="#{messages['commons.multipleDelete']}" action="#{backingBean.deleteMany()}" icon="ui-icon-trash"
+					 	onclick="if(confirm('#{messages['commons.confirmDelete']}')){return true;}else{return false;}" ajax="false" rendered="#{checkMany}" />
+				 
+				 <p:commandButton id="buttonExport" value="#{messages['commons.excelExport']}" ajax="false" rendered="#{renderExport}">
+						<p:dataExporter type="xls" target="datatable" fileName="data" pageOnly="false"/>
+				 </p:commandButton>
+			</h:panelGrid>
+			 
+		</h:form>
+	</p:panel>
+
+</ui:composition>
+
+</html>

@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:f="http://xmlns.jcp.org/jsf/core">
+	<h:form>
+		<h:panelGrid width="100%" columns="2" columnClasses="headerTitleColumn,headerLocaleColumn">
+			<h:outputText value="#{messages['header.title']}" />
+			<ui:fragment>
+				<h:outputText value="#{messages['login.user']}: #{sessionPreferences.getUserName()}" rendered="#{loginBean.isLoggedIn()}" />
+				<h:commandLink action="#{sessionPreferences.changeLocale('en')}">
+					<h:graphicImage value="/img/en.gif" />
+				</h:commandLink>
+				<h:commandLink action="#{sessionPreferences.changeLocale('lt')}">
+					<h:graphicImage value="/img/lt.gif" />
+				</h:commandLink>
+				<h:outputLink value="#{request.contextPath}/logout.jsf" rendered="#{loginBean.isLoggedIn()}">
+					<h:outputText value="#{messages['logout.message']}" />
+				</h:outputLink>
+			</ui:fragment>
+		</h:panelGrid>
+	</h:form>
+</ui:composition>

@@ -1,0 +1,27 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:hftl="http://hftl.org" xmlns:hf="http://xmlns.jcp.org/jsf/composite/tags"
+	template="../templates/template.xhtml">
+
+	<ui:param name="pageTitle" value="#{messages['customer.search']}" />
+
+	<ui:define name="content">
+		<hf:searchPanel columns="3" backingBean="#{customerBean}">
+			<hf:searchField label="#{messages['customer.name']}" field="name" />
+			<hf:searchField label="#{messages['customer.address']}" field="address" />
+			<hf:searchField label="#{messages['customer.email']}" field="email" />
+			<hf:searchField label="#{messages['customer.phone']}" field="phone" />
+			<!-- Search with drop down -->
+			<hf:searchField label="#{messages['customer.city']}" field="city" childField="name" listBean="#{cityBean}" />
+			<hf:searchField label="#{messages['customer.age']}" field="age" />
+		</hf:searchPanel>
+
+		<hftl:dataList label="#{messages['customers.search.results']}"  backingBean="#{customerBean}">
+			<hftl:column label="#{messages['customer.name']}" field="name" />
+			<hftl:column label="#{messages['customer.address']}" field="address" />
+			<hftl:column label="#{messages['customer.email']}" field="email" />
+			<hftl:column label="#{messages['customer.phone']}" field="phone" />
+			<hftl:column label="#{messages['customer.age']}" field="age" />
+			<hftl:actionsColumn />
+		</hftl:dataList>
+	</ui:define>
+</ui:composition>

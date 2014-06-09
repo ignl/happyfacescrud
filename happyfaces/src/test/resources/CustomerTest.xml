@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+
+	<CITY ID="1" VERSION="0" NAME="Vilnius" />
+	<CITY ID="2" VERSION="0" NAME="Paris" />
+	
+	<CUSTOMER ID="1" VERSION="0" CUSTOMER_NAME="tele2" ADDRESS="aaa" PHONE="12345678" EMAIL="tele2@aaa.com" CITY_ID="1" />
+	<CUSTOMER ID="2" VERSION="0" CUSTOMER_NAME="orange" ADDRESS="bbb" PHONE="12345678" EMAIL="orange@aaa.com" CITY_ID="2" />
+	<CUSTOMER ID="3" VERSION="0" CUSTOMER_NAME="vodafone" ADDRESS="ccc" PHONE="33333333" EMAIL="vodafone@aaa.com" CITY_ID="1" />
+
+</dataset>
