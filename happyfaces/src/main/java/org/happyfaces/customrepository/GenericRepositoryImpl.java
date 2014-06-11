@@ -100,8 +100,7 @@ public class GenericRepositoryImpl<T, ID extends Serializable> extends QueryDslJ
     }
 
     /**
-     * @see org.happyfaces.customrepository.GenericRepository#findAll(com.mysema.query.types.Predicate,
-     *      org.springframework.data.domain.Pageable, java.util.List)
+     * @see org.happyfaces.customrepository.GenericRepository#findAll(com.mysema.query.types.Predicate, org.springframework.data.domain.Pageable, java.util.List)
      */
     @Override
     public final Page<T> findAll(Predicate predicate, Pageable pageable, List<String> fetchFields) {
@@ -120,8 +119,7 @@ public class GenericRepositoryImpl<T, ID extends Serializable> extends QueryDslJ
     /**
      * Same as in supper just uses current class private fields.
      * 
-     * @see org.springframework.data.jpa.repository.support.QueryDslJpaRepository#
-     *      createQuery(com.mysema.query.types.Predicate[])
+     * @see org.springframework.data.jpa.repository.support.QueryDslJpaRepository#createQuery(com.mysema.query.types.Predicate[])
      */
     @Override
     protected final JPQLQuery createQuery(Predicate... predicate) {

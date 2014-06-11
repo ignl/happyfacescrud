@@ -217,7 +217,7 @@ public abstract class BaseBean<T extends IEntity> implements Serializable {
     }
 
     /**
-     * Delete Entity using it's ID. Add error message to {@link statusMessages}
+     * Delete Entity using it's ID. Add error message to statusMessages.
      * if unsuccessful.
      * 
      * @param id
@@ -240,7 +240,7 @@ public abstract class BaseBean<T extends IEntity> implements Serializable {
     }
 
     /**
-     * Delete checked entities. Add error message to {@link statusMessages} if
+     * Delete checked entities. Add error message to statusMessages if
      * unsuccessful.
      */
     public void deleteMany() {

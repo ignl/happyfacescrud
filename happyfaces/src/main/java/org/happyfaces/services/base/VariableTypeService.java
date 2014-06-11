@@ -35,7 +35,7 @@ public class VariableTypeService implements IVariableTypeService, Serializable {
     private EntityManager em;
 
     /**
-     * @see org.happyfaces.services.base.IVariableTypeService#getById(java.lang.Class, java.lang.Long)
+     * @see org.happyfaces.services.base.IVariableTypeService#findById(java.lang.Class, java.lang.Long)
      */
     @SuppressWarnings("rawtypes")
     public BaseEntity findById(Class<? extends IEntity> entityClass, Long id) {

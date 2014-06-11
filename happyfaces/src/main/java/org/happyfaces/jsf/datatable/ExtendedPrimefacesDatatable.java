@@ -21,9 +21,6 @@ import org.primefaces.component.datatable.DataTable;
 @FacesComponent(value = "ExtendedPrimefacesDatatable")
 public class ExtendedPrimefacesDatatable extends DataTable {
 
-    /**
-     * @see org.primefaces.component.datatable.DataTable#resolveSortField()
-     */
     @Override
     public String resolveStaticField(ValueExpression expression) {
         if (expression != null) {

@@ -38,7 +38,7 @@ public class UserService extends BaseService<User> implements IUserService, User
     private UserRepository repository;
 
     /**
-     * @see org.happyfaces.services.BaseService#getRepository()
+     * @see org.happyfaces.services.base.BaseService#getRepository()
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
@@ -69,7 +69,7 @@ public class UserService extends BaseService<User> implements IUserService, User
     }
     
     /**
-     * @see org.happyfaces.services.IUserService#isPaswordCorrect(org.happyfaces.domain.user.User, java.lang.String)
+     * @see org.happyfaces.services.IUserService#isPaswordCorrect(org.happyfaces.domain.User, java.lang.String)
      */
     @Override
     public boolean isPaswordCorrect(User user, String password) {
@@ -81,7 +81,7 @@ public class UserService extends BaseService<User> implements IUserService, User
     }
     
     /**
-     * @see org.happyfaces.services.IUserService#changePassword(org.happyfaces.domain.user.User, java.lang.String)
+     * @see org.happyfaces.services.IUserService#changePassword(org.happyfaces.domain.User, java.lang.String)
      */
     @Override
     @Transactional(readOnly = false)

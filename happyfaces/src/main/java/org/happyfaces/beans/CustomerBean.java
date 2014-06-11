@@ -42,9 +42,6 @@ public class CustomerBean extends BaseBean<Customer> {
         super(Customer.class);
     }
 
-    /**
-     * @see org.happyfaces.beans.base.BaseBean#getPersistenceService()
-     */
     @Override
     public IService<Customer> getPersistenceService() {
         return customerService;
