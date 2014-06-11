@@ -59,7 +59,7 @@ public class BaseServiceTest {
         Assert.assertTrue(predicateString.contains("startsWithIgnoreCase(testEntity.testText,text)"));
         Assert.assertTrue(predicateString.contains("testEntity.testByte = 1"));
         Assert.assertTrue(predicateString.contains("testEntity.testDouble = 5.5"));
-        Assert.assertTrue(predicateString.contains("testEntity.testDate = Tue Jan 01 00:00:00 EST 2013"));
+        Assert.assertTrue(predicateString.contains("testEntity.testDate = Tue Jan 01 00:00:00"));
     }
 
     @SuppressWarnings({ "serial", "rawtypes" })
@@ -103,8 +103,8 @@ public class BaseServiceTest {
         Assert.assertTrue(predicateString.contains("testEntity.testFloat >= 6.6"));
         Assert.assertTrue(predicateString.contains("testEntity.testInteger >= 3"));
         Assert.assertTrue(predicateString.contains("testEntity.testInteger <= 4"));
-        Assert.assertTrue(predicateString.contains("testEntity.testDate <= Fri Mar 01 00:00:00 EST 2013"));
-        Assert.assertTrue(predicateString.contains("testEntity.testDate >= Fri Feb 01 00:00:00 EST 2013"));
+        Assert.assertTrue(predicateString.contains("testEntity.testDate <= Fri Mar 01 00:00:00"));
+        Assert.assertTrue(predicateString.contains("testEntity.testDate >= Fri Feb 01 00:00:00"));
         Assert.assertTrue(predicateString.contains("testEntity.testLong >= 4"));
         Assert.assertTrue(predicateString.contains("testEntity.testLong <= 5"));
         Assert.assertTrue(predicateString.contains("testEntity.testByte >= 1"));
