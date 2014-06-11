@@ -1,1 +1,1 @@
-https://travis-ci.org/ignl/happyfacescrud.svg?branch=master
+<img src="https://travis-ci.org/ignl/happyfacescrud.svg?branch=master" />
