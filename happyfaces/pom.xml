@@ -26,7 +26,7 @@
 		<spring.version>4.0.5.RELEASE</spring.version>
 		<spring.security.version>3.2.4.RELEASE</spring.security.version>
 		<hibernate.version>4.3.5.Final</hibernate.version>
-		<jsf.version>2.2.6</jsf.version>
+		<jsf.version>2.2.7</jsf.version>
 		<querydsl.version>3.3.4</querydsl.version>
 		<env>dev</env>
 	</properties>
@@ -434,262 +434,244 @@
 						</execution>
 					</executions>
 				</plugin>
+
+				<!-- Plugin that creates website with information and reports about project -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-site-plugin</artifactId>
+					<version>3.3</version>
+					<configuration>
+						<reportPlugins>
+							<plugin>
+								<groupId>org.apache.maven.plugins</groupId>
+								<artifactId>maven-project-info-reports-plugin</artifactId>
+								<version>2.7</version>
+								<configuration>
+									<dependencyLocationsEnabled>false</dependencyLocationsEnabled>
+								</configuration>
+								<reportSets>
+									<reportSet>
+										<reports>
+											<report>index</report>
+											<report>dependencies</report>
+											<report>project-team</report>
+											<!-- <report>issue-tracking</report> <report>source-repository</report> 
+												<report>integration</report> -->
+										</reports>
+									</reportSet>
+								</reportSets>
+							</plugin>
+							<plugin>
+								<groupId>org.apache.maven.plugins</groupId>
+								<artifactId>maven-surefire-report-plugin</artifactId>
+								<version>2.17</version>
+								<configuration>
+									<forkMode>always</forkMode>
+								</configuration>
+							</plugin>
+							<plugin>
+								<groupId>org.apache.maven.plugins</groupId>
+								<artifactId>maven-pmd-plugin</artifactId>
+								<version>3.1</version>
+								<configuration>
+									<targetJdk>1.7</targetJdk>
+								</configuration>
+							</plugin>
+							<!-- need to run jxr:jxr once so links to pmd and other plugins will 
+								be generated -->
+							<plugin>
+								<groupId>org.apache.maven.plugins</groupId>
+								<artifactId>maven-jxr-plugin</artifactId>
+								<version>2.4</version>
+							</plugin>
+							<plugin>
+								<groupId>org.codehaus.mojo</groupId>
+								<artifactId>cobertura-maven-plugin</artifactId>
+								<version>2.6</version>
+							</plugin>
+							<plugin>
+								<groupId>org.codehaus.mojo</groupId>
+								<artifactId>findbugs-maven-plugin</artifactId>
+								<version>2.5.4</version>
+								<configuration>
+									<threshold>Medium</threshold>
+									<effort>Max</effort>
+								</configuration>
+							</plugin>
+							<plugin>
+								<groupId>org.apache.maven.plugins</groupId>
+								<artifactId>maven-checkstyle-plugin</artifactId>
+								<version>2.12.1</version>
+								<configuration>
+									<configLocation>src\main\resources\checkstyle.xml</configLocation>
+								</configuration>
+								<reportSets>
+									<reportSet>
+										<reports>
+											<report>checkstyle-aggregate</report>
+										</reports>
+									</reportSet>
+								</reportSets>
+							</plugin>
+							<plugin>
+								<groupId>org.apache.maven.plugins</groupId>
+								<artifactId>maven-javadoc-plugin</artifactId>
+								<version>2.9.1</version>
+								<reportSets>
+									<reportSet>
+										<reports>
+											<report>javadoc</report>
+										</reports>
+									</reportSet>
+								</reportSets>
+								<configuration>
+									<links>
+										<link>http://commons.apache.org/lang/api</link>
+										<link>http://javaserverfaces.java.net/nonav/docs/2.0/javadocs/index.html</link>
+										<link>http://docs.oracle.com/javase/6/docs/api</link>
+									</links>
+								</configuration>
+							</plugin>
+						</reportPlugins>
+					</configuration>
+				</plugin>
+
+				<plugin>
+					<inherited>true</inherited>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>3.1</version>
+					<configuration>
+						<source>1.7</source>
+						<target>1.7</target>
+						<optimize>true</optimize>
+						<debug>true</debug>
+					</configuration>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-javadoc-plugin</artifactId>
+					<executions>
+						<execution>
+							<id>attach-javadocs</id>
+							<goals>
+								<goal>jar</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<artifactId>maven-source-plugin</artifactId>
+					<executions>
+						<execution>
+							<id>attach-sources</id>
+							<goals>
+								<goal>jar</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-eclipse-plugin</artifactId>
+					<version>2.9</version>
+					<configuration>
+						<wtpversion>3.6</wtpversion>
+						<downloadSources>true</downloadSources>
+					</configuration>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-war-plugin</artifactId>
+					<version>2.4</version>
+					<configuration>
+						<webResources>
+							<resource>
+								<directory>src/main/webapp/WEB-INF</directory>
+								<filtering>true</filtering>
+								<targetPath>WEB-INF</targetPath>
+								<includes>
+									<include>**/applicationContext.xml</include>
+									<include>**/applicationContext-security.xml</include>
+								</includes>
+							</resource>
+						</webResources>
+					</configuration>
+				</plugin>
+
+				<!-- Properties plugin so we could read in pom from build.properties 
+					file -->
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>properties-maven-plugin</artifactId>
+					<version>1.0-alpha-2</version>
+
+					<configuration>
+						<files>
+							<file>${basedir}/build.properties</file>
+						</files>
+					</configuration>
+				</plugin>
+
+				<!-- DB unit plugin to populate demo database -->
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>dbunit-maven-plugin</artifactId>
+					<version>1.0-beta-3</version>
+					<dependencies>
+						<dependency>
+							<groupId>mysql</groupId>
+							<artifactId>mysql-connector-java</artifactId>
+							<version>5.1.30</version>
+						</dependency>
+					</dependencies>
+					<configuration>
+						<driver>${db.driver}</driver>
+						<url>${db.url}</url>
+						<username>${db.username}</username>
+						<password>${db.password}</password>
+						<format>flat</format>
+						<src>src/main/resources/demoDatabase.xml</src>
+						<type>CLEAN_INSERT</type>
+					</configuration>
+					<executions>
+						<execution>
+							<id>populate sample data</id>
+							<goals>
+								<goal>operation</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-checkstyle-plugin</artifactId>
+					<version>2.12.1</version>
+					<configuration>
+						<configLocation>src\main\resources\checkstyle.xml</configLocation>
+					</configuration>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-gpg-plugin</artifactId>
+					<executions>
+						<execution>
+							<id>sign-artifacts</id>
+							<phase>verify</phase>
+							<goals>
+								<goal>sign</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+
 			</plugins>
 		</pluginManagement>
-
-		<plugins>
-
-			<!-- Plugin that creates website with information and reports about project -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-site-plugin</artifactId>
-				<version>3.3</version>
-				<configuration>
-					<reportPlugins>
-						<plugin>
-							<groupId>org.apache.maven.plugins</groupId>
-							<artifactId>maven-project-info-reports-plugin</artifactId>
-							<version>2.7</version>
-							<configuration>
-								<dependencyLocationsEnabled>false</dependencyLocationsEnabled>
-							</configuration>
-							<reportSets>
-								<reportSet>
-									<reports>
-										<report>index</report>
-										<report>dependencies</report>
-										<report>project-team</report>
-										<!-- <report>issue-tracking</report> <report>source-repository</report> 
-											<report>integration</report> -->
-									</reports>
-								</reportSet>
-							</reportSets>
-						</plugin>
-						<plugin>
-							<groupId>org.apache.maven.plugins</groupId>
-							<artifactId>maven-surefire-report-plugin</artifactId>
-							<version>2.17</version>
-							<configuration>
-								<forkMode>always</forkMode>
-							</configuration>
-						</plugin>
-						<plugin>
-							<groupId>org.apache.maven.plugins</groupId>
-							<artifactId>maven-pmd-plugin</artifactId>
-							<version>3.1</version>
-							<configuration>
-								<targetJdk>1.7</targetJdk>
-							</configuration>
-						</plugin>
-						<!-- need to run jxr:jxr once so links to pmd and other plugins will 
-							be generated -->
-						<plugin>
-							<groupId>org.apache.maven.plugins</groupId>
-							<artifactId>maven-jxr-plugin</artifactId>
-							<version>2.4</version>
-						</plugin>
-						<plugin>
-							<groupId>org.codehaus.mojo</groupId>
-							<artifactId>cobertura-maven-plugin</artifactId>
-							<version>2.6</version>
-						</plugin>
-						<plugin>
-							<groupId>org.codehaus.mojo</groupId>
-							<artifactId>findbugs-maven-plugin</artifactId>
-							<version>2.5.4</version>
-							<configuration>
-								<threshold>Medium</threshold>
-								<effort>Max</effort>
-							</configuration>
-						</plugin>
-						<plugin>
-							<groupId>org.apache.maven.plugins</groupId>
-							<artifactId>maven-checkstyle-plugin</artifactId>
-							<version>2.12.1</version>
-							<configuration>
-								<configLocation>src\main\resources\checkstyle.xml</configLocation>
-							</configuration>
-							<reportSets>
-								<reportSet>
-									<reports>
-										<report>checkstyle-aggregate</report>
-									</reports>
-								</reportSet>
-							</reportSets>
-						</plugin>
-						<plugin>
-							<groupId>org.apache.maven.plugins</groupId>
-							<artifactId>maven-javadoc-plugin</artifactId>
-							<version>2.9.1</version>
-							<reportSets>
-								<reportSet>
-									<reports>
-										<report>javadoc</report>
-									</reports>
-								</reportSet>
-							</reportSets>
-							<configuration>
-								<links>
-									<link>http://commons.apache.org/lang/api</link>
-									<link>http://javaserverfaces.java.net/nonav/docs/2.0/javadocs/index.html</link>
-									<link>http://docs.oracle.com/javase/6/docs/api</link>
-								</links>
-							</configuration>
-						</plugin>
-					</reportPlugins>
-				</configuration>
-			</plugin>
-
-			<plugin>
-				<inherited>true</inherited>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.1</version>
-				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
-					<optimize>true</optimize>
-					<debug>true</debug>
-				</configuration>
-			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>attach-javadocs</id>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<artifactId>maven-source-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>attach-sources</id>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-eclipse-plugin</artifactId>
-				<version>2.9</version>
-				<configuration>
-					<wtpversion>3.6</wtpversion>
-					<downloadSources>true</downloadSources>
-				</configuration>
-			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<version>2.4</version>
-				<configuration>
-					<webResources>
-						<resource>
-							<directory>src/main/webapp/WEB-INF</directory>
-							<filtering>true</filtering>
-							<targetPath>WEB-INF</targetPath>
-							<includes>
-								<include>**/applicationContext.xml</include>
-								<include>**/applicationContext-security.xml</include>
-							</includes>
-						</resource>
-					</webResources>
-				</configuration>
-			</plugin>
-
-			<!-- Properties plugin so we could read in pom from build.properties file -->
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>properties-maven-plugin</artifactId>
-				<version>1.0-alpha-2</version>
-
-				<configuration>
-					<files>
-						<file>${basedir}/build.properties</file>
-					</files>
-				</configuration>
-			</plugin>
-
-			<!-- DB unit plugin to populate demo database -->
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>dbunit-maven-plugin</artifactId>
-				<version>1.0-beta-3</version>
-				<dependencies>
-					<dependency>
-						<groupId>mysql</groupId>
-						<artifactId>mysql-connector-java</artifactId>
-						<version>5.1.30</version>
-					</dependency>
-				</dependencies>
-				<configuration>
-					<driver>${db.driver}</driver>
-					<url>${db.url}</url>
-					<username>${db.username}</username>
-					<password>${db.password}</password>
-					<format>flat</format>
-					<src>src/main/resources/demoDatabase.xml</src>
-					<type>CLEAN_INSERT</type>
-				</configuration>
-				<executions>
-					<execution>
-						<id>populate sample data</id>
-						<goals>
-							<goal>operation</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-
-			<plugin>
-				<groupId>com.mysema.maven</groupId>
-				<artifactId>apt-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<goals>
-							<goal>process</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>target/generated-sources/java</outputDirectory>
-							<processor>com.mysema.query.apt.jpa.JPAAnnotationProcessor</processor>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-checkstyle-plugin</artifactId>
-				<version>2.12.1</version>
-				<configuration>
-					<configLocation>src\main\resources\checkstyle.xml</configLocation>
-				</configuration>
-			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-gpg-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>sign-artifacts</id>
-						<phase>verify</phase>
-						<goals>
-							<goal>sign</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-
-		</plugins>
 
 	</build>
 
