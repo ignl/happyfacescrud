@@ -37,7 +37,7 @@
 								<goal>perform</goal>
 							</goals>
 							<configuration>
-								<pomFileName>subdir/pom.xml</pomFileName>
+								<pomFileName>archetype/pom.xml</pomFileName>
 							</configuration>
 						</execution>
 					</executions>
