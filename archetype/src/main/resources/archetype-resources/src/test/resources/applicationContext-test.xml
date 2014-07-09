@@ -1,0 +1,49 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:data="http://www.springframework.org/schema/data/jpa"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/tx
+http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context-3.0.xsd
+http://www.springframework.org/schema/jdbc 
+http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+http://www.springframework.org/schema/data/jpa
+http://www.springframework.org/schema/data/jpa/spring-jpa.xsd"
+>
+	<context:component-scan base-package="${package}" />
+	<data:repositories base-package="${package}.repositories" factory-class="${package}.customrepository.DefaultRepositoryFactoryBean" />
+	
+	<jdbc:embedded-database id="DataSource" type="HSQL"/>
+	
+	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+	    <property name="persistenceUnitName" value="testPersistenceUnit" />
+	    <property name="packagesToScan" value="${package}.domain.*" />
+	    <property name="dataSource" ref="DataSource"/>
+	    <property name="jpaVendorAdapter">
+	      <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+	         <property name="showSql" value="true" />
+	      </bean>
+	   </property>
+	</bean>
+
+	<!-- Enable the configuration of transactional behavior based on annotations -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<!-- Transaction Manager is defined -->
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		 <property name="entityManagerFactory" ref="entityManagerFactory"/>
+	</bean>
+	
+	<bean name="databaseTester" class="org.dbunit.DataSourceDatabaseTester">
+        <constructor-arg ref="DataSource" />
+    </bean>
+	
+</beans>

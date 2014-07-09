@@ -1,0 +1,136 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets" 
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui" 
+	xmlns:hf="http://xmlns.jcp.org/jsf/composite/tags"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:cc="http://xmlns.jcp.org/jsf/composite">
+
+	<cc:interface componentType="searchField">
+		<cc:attribute name="field" required="true" />
+		<cc:attribute name="backingBean" required="false" />
+		<cc:attribute name="disabled" default="false" />
+		<cc:attribute name="size" default="20" />
+		<cc:attribute name="rangeSearch" default="true" />
+		<cc:attribute name="padding" default="5px" />
+		<cc:attribute name="time" default="false" />
+		<cc:attribute name="childField"  required="false" />
+		<cc:attribute name="listBean" required="false" />
+		<cc:attribute name="popup" default="false" />
+		<cc:attribute name="popupWidget" default="dlg" />
+	</cc:interface>
+	
+	<cc:implementation>
+
+		<ui:fragment rendered="${symbol_pound}{cc.isText(cc.attrs.field)}">
+			<h:panelGrid columns="2">
+				<p:outputLabel for="${symbol_pound}{cc.attrs.field}_text" value="${symbol_pound}{cc.attrs.label}" />
+				<p:inputText id="${symbol_pound}{cc.attrs.field}_text" label="${symbol_pound}{cc.attrs.label}" value="${symbol_pound}{cc.filters[cc.attrs.field]}" size="${symbol_pound}{cc.attrs.size}" disabled="${symbol_pound}{cc.attrs.disabled}" />
+			</h:panelGrid>
+		</ui:fragment>
+		
+		<!--  If the value binding is a boolean, display a drop down with yes/no choices. -->
+		<ui:fragment rendered="${symbol_pound}{cc.isBoolean(cc.attrs.field)}">
+			<h:panelGrid columns="2">
+				<p:outputLabel for="${symbol_pound}{cc.attrs.field}_boolean" value="${symbol_pound}{cc.attrs.label}" />
+				<p:selectOneMenu id="${symbol_pound}{cc.attrs.field}_boolean" value="${symbol_pound}{cc.filters[cc.attrs.field]}" label="${symbol_pound}{cc.attrs.label}" converter="javax.faces.Boolean" disabled="${symbol_pound}{cc.attrs.disabled}">
+					<f:selectItem itemValue="${symbol_pound}{null}" itemLabel="" />
+					<f:selectItem itemValue="${symbol_pound}{true}" itemLabel="${symbol_pound}{messages['commons.yes']}" />
+					<f:selectItem itemValue="${symbol_pound}{false}" itemLabel="${symbol_pound}{messages['commons.no']}" />
+				</p:selectOneMenu>
+			</h:panelGrid>
+		</ui:fragment>
+		
+		<!--  If the value binding is a date, display a p:calendar field. -->
+		<ui:fragment rendered="${symbol_pound}{cc.isDate(cc.attrs.field)}">
+			<ui:fragment rendered="${symbol_pound}{not cc.attrs.rangeSearch}">
+				<h:panelGrid columns="2">
+					<p:outputLabel for="${symbol_pound}{cc.attrs.field}_date" value="${symbol_pound}{cc.attrs.label}" />
+					<p:calendar id="${symbol_pound}{cc.attrs.field}_date" value="${symbol_pound}{cc.filters[cc.attrs.field]}" label="${symbol_pound}{cc.attrs.label}" pattern="${symbol_pound}{cc.datePattern}" disabled="${symbol_pound}{cc.attrs.disabled}" />
+				</h:panelGrid>
+			</ui:fragment>
+			<ui:fragment rendered="${symbol_pound}{cc.attrs.rangeSearch}">
+				<h:panelGrid columns="2">
+					<p:outputLabel for="fromRange_${symbol_pound}{cc.attrs.field}_date" value="${symbol_pound}{cc.attrs.label}" />
+					<h:panelGrid columns="4">
+						<p:calendar id="fromRange_${symbol_pound}{cc.attrs.field}_date" value="${symbol_pound}{cc.filters[cc.fromRangeSearchFilterName]}" label="${symbol_pound}{cc.attrs.label}" pattern="${symbol_pound}{cc.datePattern}" disabled="${symbol_pound}{cc.attrs.disabled}" />
+						<p:watermark for="fromRange_${symbol_pound}{cc.attrs.field}_date" value="${symbol_pound}{messages['commons.dateFrom']}" />  
+						
+						<p:calendar id="toRange_${symbol_pound}{cc.attrs.field}_date" value="${symbol_pound}{cc.filters[cc.toRangeSearchFilterName]}" label="${symbol_pound}{cc.attrs.label}" pattern="${symbol_pound}{cc.datePattern}" disabled="${symbol_pound}{cc.attrs.disabled}" />
+						<p:watermark for="toRange_${symbol_pound}{cc.attrs.field}_date" value="${symbol_pound}{messages['commons.dateTill']}" />  
+					</h:panelGrid>
+				</h:panelGrid>
+			</ui:fragment>
+		</ui:fragment>
+		
+		<!--  If the value binding is an enum, display a drop down. -->
+		<ui:fragment rendered="${symbol_pound}{cc.isEnum(cc.attrs.field)}">
+			<h:panelGrid columns="2">
+				<p:outputLabel for="${symbol_pound}{cc.attrs.field}_enum" value="${symbol_pound}{cc.attrs.label}" />
+				<p:selectOneMenu id="${symbol_pound}{cc.attrs.field}_enum" value="${symbol_pound}{cc.filters[cc.attrs.field]}" label="${symbol_pound}{cc.attrs.label}" disabled="${symbol_pound}{cc.attrs.disabled}">
+					<f:selectItem itemLabel=""  />
+					<f:selectItems value="${symbol_pound}{cc.getEnumConstants(cc.attrs.field)}" var="enumElement" itemValue="${symbol_pound}{enumElement}" itemLabel="${symbol_pound}{messages[enumElement.label]}"/>
+					<f:converter converterId="enumConverter" />
+				</p:selectOneMenu>
+			</h:panelGrid>
+		</ui:fragment>
+		
+		<!--  If the value binding is a number display number field. -->
+		<ui:fragment rendered="${symbol_pound}{cc.isInteger(cc.attrs.field)}">
+			<hf:numberField converterId="javax.faces.Integer" />
+		</ui:fragment>
+		<ui:fragment rendered="${symbol_pound}{cc.isLong(cc.attrs.field)}">
+			<hf:numberField converterId="javax.faces.Long" />
+		</ui:fragment>
+		<ui:fragment rendered="${symbol_pound}{cc.isByte(cc.attrs.field)}">
+			<hf:numberField converterId="javax.faces.Byte" />
+		</ui:fragment>
+		<ui:fragment rendered="${symbol_pound}{cc.isShort(cc.attrs.field)}">
+			<hf:numberField converterId="javax.faces.Short" />
+		</ui:fragment>
+		<ui:fragment rendered="${symbol_pound}{cc.isDouble(cc.attrs.field)}">
+			<hf:numberField converterId="javax.faces.Double" />
+		</ui:fragment>
+		<ui:fragment rendered="${symbol_pound}{cc.isFloat(cc.attrs.field)}">
+			<hf:numberField converterId="javax.faces.Float" />
+		</ui:fragment>
+		<ui:fragment rendered="${symbol_pound}{cc.isBigDecimal(cc.attrs.field)}">
+			<hf:numberField converterId="javax.faces.BigDecimal" />
+		</ui:fragment>
+		
+		<ui:fragment rendered="${symbol_pound}{cc.isEntity(cc.attrs.field)}">
+			<!-- Search with entity popup -->
+		    <ui:fragment rendered="${symbol_pound}{cc.attrs.popup}">
+				<h:panelGrid columns="2">
+					<p:outputLabel for="${symbol_pound}{cc.attrs.field}_child" value="${symbol_pound}{cc.attrs.label}" />
+					<h:panelGrid id="${symbol_pound}{cc.attrs.field}" columns="3">
+						<p:inputText id="${symbol_pound}{cc.attrs.field}_child" value="${symbol_pound}{cc.filters[cc.attrs.field][cc.attrs.childField]}" required="${symbol_pound}{cc.attrs.required}" size="${symbol_pound}{cc.attrs.size}" disabled="true" />
+						<p:commandButton id="selectLink" onclick="PF('${symbol_pound}{cc.attrs.popupWidget}').show()" icon="ui-icon-search"/>
+						<p:tooltip for="selectLink" value="${symbol_pound}{messages['commons.search']}" />
+					</h:panelGrid>
+				</h:panelGrid>
+			</ui:fragment>
+
+			<!-- Search with entity list in select box -->
+		    <ui:fragment rendered="${symbol_pound}{not cc.attrs.popup and not empty cc.attrs.listBean}">
+	    		<h:panelGrid columns="2">
+					<p:outputLabel for="_${symbol_pound}{cc.attrs.id}_level" value="${symbol_pound}{cc.attrs.label}" />
+					<p:selectOneMenu id="_${symbol_pound}{cc.attrs.id}_level" value="${symbol_pound}{cc.filters[cc.attrs.field]}">
+						<f:selectItem itemLabel="" itemValue="" />
+						<f:selectItems value="${symbol_pound}{cc.attrs.listBean.listAll()}" var="elem" itemLabel="${symbol_pound}{elem[cc.attrs.childField]}" itemValue="${symbol_pound}{elem}" />
+						<f:converter binding="${symbol_pound}{entityConverter}" />
+					</p:selectOneMenu>
+				</h:panelGrid>
+	    	</ui:fragment>
+		</ui:fragment>
+		
+	</cc:implementation>
+
+</html>

@@ -1,0 +1,40 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:hftl="http://hftl.org" xmlns:hf="http://xmlns.jcp.org/jsf/composite/tags"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" template="../templates/template.xhtml">
+
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:viewParam name="edit" rendered="${symbol_pound}{sessionPreferences.editAllowed}" value="${symbol_pound}{accountBean.edit}" />
+			<f:viewParam name="objectId" value="${symbol_pound}{accountBean.objectId}" />
+		</f:metadata>
+	</ui:define>
+
+	<ui:param name="pageTitle" value="${symbol_pound}{messages['account.page.title']}" />
+	<ui:define name="content">
+	
+		<hf:formPanel id="formPanel" label="${symbol_pound}{messages['account.page.panel']}" backingBean="${symbol_pound}{accountBean}" columns="1" >
+			
+			<!-- Simple fields like numbers, strings, dates etc only needs field name provided. -->
+			<hf:formField label="${symbol_pound}{messages['account.accountNumber']}" field="accountNumber" required="true" />
+			<hf:formField label="${symbol_pound}{messages['account.active']}" field="active" isMessage="true" />
+			<hf:formField label="${symbol_pound}{messages['account.openingDate']}" field="openingDate" />
+			
+			<!-- If field is another entity it needs childField. If we want popup selection - popup parameter must be set to true and popup component present out of this form. -->
+			<hf:formEntityField id="customer" label="${symbol_pound}{messages['account.customer']}" field="customer" childField="name" popup="true" />
+			
+			<!-- when entity field contains list of elements we provide which fields from those elements to show with format: label,fieldName,'msg'(optional this is variable to tell 
+				if value of fieldName should be translated) then semicolon (;) then if needed describe another field. In this example operationType is enum and its elements has translation so we add 'msg' at the end. -->
+			<hf:formField label="${symbol_pound}{messages['account.operations']}" field="operations"
+				showFields="operation.operationName,operationName;operation.amount,amount;operation.operationType,operationType,msg;" />
+		
+		</hf:formPanel>
+		
+		<hftl:entityPopup id="customersPopup" header="${symbol_pound}{messages['customer.search']}" updateField=":formPanel:formId:customer:customer" selection="${symbol_pound}{accountBean.entity.customer}"
+			backingBean="${symbol_pound}{customerBean}" searchField1Label="${symbol_pound}{messages['customer.name']}" searchField1="name" column1Label="${symbol_pound}{messages['customer.name']}" column1="name" 
+			column2Label="${symbol_pound}{messages['customer.email']}" column2="email" />
+
+	</ui:define>
+</ui:composition>

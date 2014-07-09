@@ -1,0 +1,20 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<?xml version="1.0"?>
+
+<!DOCTYPE suppressions PUBLIC
+    "-//Puppy Crawl//DTD Suppressions 1.1//EN"
+    "http://www.puppycrawl.com/dtds/suppressions_1_1.dtd">
+
+<suppressions>
+	<!-- do not check Test classes. -->
+    <suppress files=".*Test${symbol_escape}.java" checks="."/>
+	
+	<!-- do not check query dsl generated classes.. -->
+    <suppress files="QBaseEntity${symbol_escape}.java" checks="."/> 
+    <suppress files="QCustomer${symbol_escape}.java" checks="."/> 
+    <suppress files="QIncident${symbol_escape}.java" checks="."/> 
+    <suppress files="QTimelineEntry${symbol_escape}.java" checks="."/> 
+    <suppress files="QUser${symbol_escape}.java" checks="."/> 
+</suppressions>

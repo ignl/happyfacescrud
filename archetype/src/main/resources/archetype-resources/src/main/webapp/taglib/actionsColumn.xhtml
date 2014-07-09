@@ -1,0 +1,49 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+		xmlns:h="http://xmlns.jcp.org/jsf/html"
+		xmlns:f="http://xmlns.jcp.org/jsf/core"
+	    xmlns:p="http://primefaces.org/ui"
+		xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+	<ui:composition>
+		
+		<c:if test="${symbol_dollar}{empty renderViewLink}">
+			<c:set var="renderViewLink" value="true" />
+		</c:if>
+		<c:if test="${symbol_dollar}{empty renderEditLink}">
+			<c:set var="renderEditLink" value="true" />
+		</c:if>
+		<c:if test="${symbol_dollar}{empty renderDeleteLink}">
+			<c:set var="renderDeleteLink" value="true" />
+		</c:if>
+	
+		<p:column style="width: 160px;" exportable="false">
+             <f:facet name="header">
+                    <h:outputText value="${symbol_pound}{messages['commons.actions']}" />
+             </f:facet>
+             
+             <p:tooltip for="viewlink" value="${symbol_pound}{messages['commons.view']}" showEffect="slide" hideEffect="slide"/>
+             <p:button id="viewlink" outcome="${symbol_pound}{backingBean.getEditViewName()}" icon="ui-icon-search" rendered="${symbol_pound}{renderViewLink}">
+             	<f:param name="objectId" value="${symbol_pound}{entity.id}"/>
+             	<f:param name="edit" value="false"/>
+             </p:button>
+             <p:tooltip for="editlink" value="${symbol_pound}{messages['commons.edit']}" showEffect="slide" hideEffect="slide"/>
+             <p:button id="editlink" outcome="${symbol_pound}{backingBean.getEditViewName()}" icon="ui-icon-document" rendered="${symbol_pound}{renderEditLink}">
+             	<f:param name="objectId" value="${symbol_pound}{entity.id}"/>
+             	<f:param name="edit" value="true"/>
+             </p:button>
+
+	             <p:tooltip for="deletelink" value="${symbol_pound}{messages['commons.delete']}" showEffect="slide" hideEffect="slide"/>
+             	 <p:commandButton id="deletelink" action="${symbol_pound}{backingBean.delete(entity.id)}" icon="ui-icon-trash" rendered="${symbol_pound}{renderDeleteLink}" ajax="false" />
+
+         </p:column>
+	    
+    </ui:composition>
+
+</html>

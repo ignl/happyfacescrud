@@ -1,0 +1,28 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:hf="http://xmlns.jcp.org/jsf/composite/tags"
+	template="../templates/template.xhtml">
+	
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:viewParam name="edit" rendered="${symbol_pound}{sessionPreferences.editAllowed}" value="${symbol_pound}{customerBean.edit}" />
+			<f:viewParam name="objectId" value="${symbol_pound}{customerBean.objectId}" />
+		</f:metadata>
+	</ui:define>
+
+	<ui:param name="pageTitle" value="${symbol_pound}{messages['customer.page.title']}" />
+	<ui:define name="content">
+		<hf:formPanel id="customerPanel" label="${symbol_pound}{messages['customer.page.panel']}" backingBean="${symbol_pound}{customerBean}" edit="${symbol_pound}{edit}" >
+			<hf:formField id="name" label="${symbol_pound}{messages['customer.name']}" field="name" required="true" />
+			<!-- Entity support with list bean which generates drop down (there is popup exampple in accountEdit). -->
+			<hf:formEntityField id="city" label="${symbol_pound}{messages['customer.city']}" field="city" childField="name" listBean="${symbol_pound}{cityBean}" />
+			<hf:formField id="address" label="${symbol_pound}{messages['customer.address']}"  field="address" />
+			<hf:formField id="email" label="${symbol_pound}{messages['customer.email']}" field="email" />
+			<hf:formField id="phone" label="${symbol_pound}{messages['customer.phone']}" field="phone" required="true" />
+			<hf:formField id="age" label="${symbol_pound}{messages['customer.age']}" field="age" required="true" />
+			<hf:formField id="perks" label="${symbol_pound}{messages['customer.perks']}" field="perks" childField="name" listType="pickUpList" />
+		</hf:formPanel>
+	</ui:define>
+</ui:composition>

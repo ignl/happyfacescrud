@@ -1,0 +1,35 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets" 
+	xmlns:h="http://xmlns.jcp.org/jsf/html" 
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+	
+<f:view locale="${symbol_pound}{sessionPreferences.locale}" transient="true">
+	<ui:insert name="metadata"></ui:insert>
+	<h:head>
+		<title>${symbol_pound}{messages['application.title']}</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="pageTitle" content="${symbol_dollar}{pageTitle}"/>
+		<link href="${symbol_pound}{facesContext.externalContext.requestContextPath}/resources/style.css" rel="styleSheet" type="text/css"/>    
+		<ui:insert name="head"></ui:insert>
+	</h:head>
+	<h:body>
+		<p:layout fullPage="true" id="page">
+			<p:layoutUnit id="top" position="north">
+				<ui:include src="header.xhtml" />
+			</p:layoutUnit>
+			<p:layoutUnit position="center" scrollable="true" header="${symbol_pound}{pageTitle}">
+				<ui:insert name="content"></ui:insert>
+			</p:layoutUnit>
+			<p:layoutUnit id="bottom" position="south">
+				<ui:include src="footer.xhtml" />
+			</p:layoutUnit>
+		</p:layout>
+	</h:body>
+</f:view>
+</html>

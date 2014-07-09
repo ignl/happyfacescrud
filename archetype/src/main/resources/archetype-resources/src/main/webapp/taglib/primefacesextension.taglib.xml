@@ -1,0 +1,20 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<?xml version="1.0"?>
+
+<!DOCTYPE facelet-taglib PUBLIC
+	"-//Sun Microsystems, Inc.//DTD Facelet Taglib 1.0//EN"
+	"facelet-taglib_1_0.dtd">
+
+<facelet-taglib>
+	<namespace>http://primefaces.org/extension</namespace>
+
+	<tag>
+		<tag-name>sortableDataTable</tag-name>
+		<component>
+			<component-type>ExtendedPrimefacesDatatable</component-type>
+		</component>
+	</tag>
+	
+</facelet-taglib>

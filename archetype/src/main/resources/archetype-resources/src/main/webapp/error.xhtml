@@ -1,0 +1,17 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
+                template="templates/template.xhtml">
+    <ui:param name="pageTitle" value="${symbol_pound}{messages['error']}" />
+    <ui:define name="content">
+        <p:messages />
+    </ui:define>
+</ui:composition>

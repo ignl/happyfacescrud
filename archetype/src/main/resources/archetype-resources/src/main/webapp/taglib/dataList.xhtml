@@ -1,0 +1,62 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:p="http://primefaces.org/ui" xmlns:e="http://primefaces.org/extension" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+<ui:composition>
+
+	<c:if test="${symbol_dollar}{empty pdf}">
+		<c:set var="pdf" value="false" />
+	</c:if>
+
+	<c:if test="${symbol_dollar}{empty edit}">
+		<c:set var="edit" value="true" />
+	</c:if>
+
+	<c:if test="${symbol_dollar}{empty checkMany}">
+		<c:set var="checkMany" value="true" />
+	</c:if>
+
+	<c:if test="${symbol_dollar}{empty renderExport}">
+		<c:set var="renderExport" value="true" />
+	</c:if>
+
+	<c:if test="${symbol_dollar}{empty resultsId}">
+		<c:set var="resultsId" value="results" />
+	</c:if>
+
+	<c:if test="${symbol_dollar}{empty formId}">
+		<c:set var="formId" value="${symbol_pound}{resultsId}_form" />
+	</c:if>
+
+
+	<p:panel id="${symbol_pound}{resultsId}_panel" width="100">
+
+		<h:form id="${symbol_pound}{formId}" prependId="false" >
+			
+			<e:sortableDataTable id="datatable" var="entity" value="${symbol_pound}{backingBean.lazyDataModel}" paginator="true" rows="10"  selection="${symbol_pound}{backingBean.selectedEntities}"
+				paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" 
+				rowsPerPageTemplate="5,10,15" lazy="true" binding="${symbol_pound}{backingBean.dataTable}">
+				<p:column selectionMode="multiple" style="width:2%" rendered="${symbol_pound}{checkMany}" exportable="false"  />  
+				<ui:insert />
+			</e:sortableDataTable>
+
+			<h:panelGrid columns="2">
+				 <p:commandButton id="deleteEntitieslink" value="${symbol_pound}{messages['commons.multipleDelete']}" action="${symbol_pound}{backingBean.deleteMany()}" icon="ui-icon-trash"
+					 	onclick="if(confirm('${symbol_pound}{messages['commons.confirmDelete']}')){return true;}else{return false;}" ajax="false" rendered="${symbol_pound}{checkMany}" />
+				 
+				 <p:commandButton id="buttonExport" value="${symbol_pound}{messages['commons.excelExport']}" ajax="false" rendered="${symbol_pound}{renderExport}">
+						<p:dataExporter type="xls" target="datatable" fileName="data" pageOnly="false"/>
+				 </p:commandButton>
+			</h:panelGrid>
+			 
+		</h:form>
+	</p:panel>
+
+</ui:composition>
+
+</html>

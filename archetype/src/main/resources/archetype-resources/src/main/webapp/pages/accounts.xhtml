@@ -1,0 +1,44 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:hftl="http://hftl.org" xmlns:hf="http://xmlns.jcp.org/jsf/composite/tags"
+	template="../templates/template.xhtml">
+
+	<ui:param name="pageTitle" value="${symbol_pound}{messages['account.search']}" />
+
+	<ui:define name="content">
+		<hf:searchPanel id="searchPanel" columns="3" backingBean="${symbol_pound}{accountBean}">
+			<hf:searchField label="${symbol_pound}{messages['account.accountNumber']}" field="accountNumber" />
+			<hf:searchField label="${symbol_pound}{messages['account.active']}" field="active" isMessage="true" />
+			<hf:searchField id="customerField" label="${symbol_pound}{messages['account.customer']}" field="customer" childField="name" popup="true" />
+			<!-- Example of non range search -->
+			<hf:searchField label="${symbol_pound}{messages['account.openingDate']}" field="openingDate" rangeSearch="false" />
+		</hf:searchPanel>
+
+		<hftl:dataList label="${symbol_pound}{messages['account.search.results']}" backingBean="${symbol_pound}{accountBean}">
+		
+			<!-- Simple fields like numbers, strings, dates etc only needs field name provided. -->
+			<hftl:column label="${symbol_pound}{messages['account.accountNumber']}" field="accountNumber" />
+			
+			<hftl:column label="${symbol_pound}{messages['account.active']}" field="active" isMessage="true" />
+			
+			<!-- If field is another entity it needs childField parameter. We can also add optional parameters entityView for link to view page 
+				and popupFields to show popup with more detaiLed information. In this case if you remove entityView and popupFields - column will only show customer name. -->
+			<hftl:column label="${symbol_pound}{messages['account.customer']}" field="customer" childField="name" entityView="/pages/customerEdit.xhtml" popupFields="email,phone,address" />
+			
+			<!-- Date without time format (by default, if time is needed set time="true" like in operation) -->
+			<hftl:column label="${symbol_pound}{messages['account.openingDate']}" field="openingDate" isDate="true" />
+
+			<hftl:column label="${symbol_pound}{messages['account.operations']}" field="operations" childField="operationName" isList="true" entityView="/pages/operationEdit.xhtml" />
+			
+			<hftl:actionsColumn />
+		</hftl:dataList>
+		
+		<!-- Same popup as in accountEdit.xhtml the only difference is that selection set to filters and updateField is obviously another one. -->
+		<hftl:entityPopup id="customersPopup" header="${symbol_pound}{messages['customer.search']}" updateField=":searchPanel:searchForm:customerField:customer_child" selection="${symbol_pound}{accountBean.filters['customer']}"
+			backingBean="${symbol_pound}{customerBean}" searchField1Label="${symbol_pound}{messages['customer.name']}" searchField1="name" column1Label="${symbol_pound}{messages['customer.name']}" column1="name" 
+			column2Label="${symbol_pound}{messages['customer.email']}" column2="email" />
+			
+	</ui:define>
+</ui:composition>

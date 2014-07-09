@@ -1,0 +1,37 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:sec="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+           http://www.springframework.org/schema/security
+           http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+
+	<global-method-security secured-annotations="enabled">
+	</global-method-security>
+
+	<http pattern="/resources/**" security="none" />
+	<http pattern="/javax.faces.resource/**" security="none" />
+	<http pattern="/img/**" security="none" />
+	<http pattern="/login*" security="none"/>
+
+	<http auto-config="true" access-denied-page="/accessDenied.jsf">
+		<anonymous enabled='false'/>
+		<intercept-url pattern="/login*" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<intercept-url pattern="/**" access="ROLE_USER" />
+		<form-login login-processing-url="/j_spring_security_check"
+			login-page="/login.jsf" default-target-url="/index.jsf"
+			always-use-default-target="true" authentication-failure-url="/login.jsf" />
+		<logout logout-url="/logout.jsf" logout-success-url="/login.jsf" invalidate-session="true" />
+	</http>
+
+	<authentication-manager alias="authenticationManager">
+	   <authentication-provider user-service-ref="userService">
+	   		<password-encoder hash="sha-256" />
+	   </authentication-provider>
+	</authentication-manager>
+
+
+</beans:beans>

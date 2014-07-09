@@ -1,0 +1,11 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+	
+	<APP_USER ID="100" VERSION="0" FIRST_NAME="Ignas" LAST_NAME="I" USER_NAME="ignas" EMAIL="ignas@aaa.com" PASSWORD="1" />
+	<APP_USER ID="101" VERSION="0" FIRST_NAME="Bronius" LAST_NAME="B" USER_NAME="bronius" EMAIL="bronius@aaa.com" PASSWORD="1"  />
+	<APP_USER ID="102" VERSION="0" FIRST_NAME="Kepta vista" LAST_NAME="K" USER_NAME="kepta" EMAIL="kepta@aaa.com" PASSWORD="1" />
+		
+</dataset>

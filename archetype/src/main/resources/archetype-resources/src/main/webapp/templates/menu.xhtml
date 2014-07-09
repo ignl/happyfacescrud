@@ -1,0 +1,21 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<?xml version='1.0' encoding='UTF-8' ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:f="http://xmlns.jcp.org/jsf/core">
+	
+	<h:form>
+		<p:menu>  
+	        <p:submenu label="${symbol_pound}{messages['menu.customers']}">  
+	            <p:menuitem value="${symbol_pound}{messages['menu.customers']}" outcome="customers" />  
+	        </p:submenu>  
+	        <p:submenu label="${symbol_pound}{messages['menu.accounts']}">  
+	            <p:menuitem value="${symbol_pound}{messages['menu.accounts']}" outcome="accounts" />  
+	        </p:submenu>  
+	        <p:submenu label="${symbol_pound}{messages['menu.operations']}">  
+	            <p:menuitem value="${symbol_pound}{messages['menu.operations']}" outcome="operations" />  
+	        </p:submenu>  
+	    </p:menu>  
+	</h:form>
+</ui:composition>

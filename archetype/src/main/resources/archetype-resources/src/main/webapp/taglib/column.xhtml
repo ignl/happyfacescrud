@@ -1,0 +1,169 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets" 
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" 
+	xmlns:p="http://primefaces.org/ui" 
+	xmlns:hf="http://xmlns.jcp.org/jsf/composite/tags"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+<ui:composition>
+
+	<c:if test="${symbol_dollar}{empty childField}">
+		<c:set var="fieldName" value="${symbol_pound}{field}" />
+	</c:if>
+	
+	<c:if test="${symbol_dollar}{not empty childField}">
+		<c:set var="fieldName" value="${symbol_pound}{childField}" />
+	</c:if>
+
+	<c:if test="${symbol_dollar}{empty isMessage}">
+		<c:set var="isMessage" value="false" />
+	</c:if>
+
+	<c:if test="${symbol_dollar}{empty show}">
+		<c:set var="show" value="true" />
+	</c:if>
+
+	<c:if test="${symbol_dollar}{empty isDate}">
+		<c:set var="isDate" value="false" />
+	</c:if>
+
+	<c:if test="${symbol_dollar}{empty time}">
+		<c:set var="time" value="false" />
+	</c:if>
+	
+	<c:if test="${symbol_dollar}{time}">
+		<c:set var="datePattern" value="${symbol_pound}{messages['${artifactId}.dateTimeFormat']}" />
+	</c:if>
+	
+	<c:if test="${symbol_dollar}{!time}">
+		<c:set var="datePattern" value="${symbol_pound}{messages['${artifactId}.dateFormat']}" />
+	</c:if>
+
+	<c:if test="${symbol_dollar}{empty isList}">
+		<c:set var="isList" value="false" />
+	</c:if>
+	
+	<c:if test="${symbol_dollar}{empty sort}">
+		<c:set var="sort" value="true" />
+	</c:if>
+
+	<c:if test="${symbol_dollar}{empty childFieldId}">
+		<c:set var="childFieldId" value="id" />
+	</c:if>
+
+	<c:if test="${symbol_dollar}{empty exportable}">
+		<c:set var="exportable" value="true" />
+		<c:if test="${symbol_dollar}{isList}">
+			<!-- List columns are not exportable, because its ui:reapeat component. -->
+			<c:set var="exportable" value="false" />
+		</c:if>
+	</c:if>
+
+	<p:column exportable="${symbol_pound}{exportable}">
+        <f:attribute rendered="${symbol_pound}{sort}" name="sortBy" value="${symbol_pound}{field}"/>
+		<f:facet name="header">
+       		<h:outputText value="${symbol_pound}{label}" />
+        </f:facet>
+
+		<!-- If there is no child field, just show fieldValue. However if fieldValue can be message check if it is not boolean first
+        	if so use standard yes and no messages. If its not boolean just translate fieldValue message. 
+        	Also if childField is not set then it basically means it can't be isList=true even if it is set, so we don't check isList here.-->
+		<c:if test="${symbol_pound}{empty childField}">
+			<c:if test="${symbol_pound}{isMessage}">
+				<h:outputText rendered="${symbol_pound}{entity[field] != null and entity[field].toString() == 'true'}" value="${symbol_pound}{messages['commons.yes']}" />
+				<h:outputText rendered="${symbol_pound}{entity[field] != null and entity[field].toString() == 'false'}" value="${symbol_pound}{messages['commons.no']}" />
+				<h:outputText rendered="${symbol_pound}{entity[field] != null and entity[field].toString() != 'true' and entity[field].toString() != 'false'}" value="${symbol_pound}{messages[entity[field]]}" />
+			</c:if>
+			<c:if test="${symbol_pound}{not isMessage}">
+				<!-- If there is date field, show date in specified pattern 
+		    	 If isDate is not set then it basically means it is not a date. Also if time is not set it basically means that time=true
+		    	 -->
+				<h:outputText value="${symbol_pound}{entity[field]}" rendered="${symbol_pound}{!isDate and show}" converter="${symbol_pound}{getConverter.forType(entity[field], converterParam)}" />
+
+				<h:outputText value="${symbol_pound}{entity[field]}" rendered="${symbol_pound}{isDate}">
+					<f:convertDateTime pattern="${symbol_pound}{datePattern}" />
+				</h:outputText>
+
+			</c:if>
+		</c:if>
+		
+		<!-- If childField parameter is provided that means fieldValue is entity, enum or list. -->
+		<c:if test="${symbol_pound}{not empty childField}">
+			<!-- If field is not list, then it means it is either another entity or enum. -->
+			<c:if test="${symbol_pound}{not isList}">
+				<!-- If childField ID is not provided then we dont need link to entity page. -->
+				<c:if test="${symbol_pound}{empty entityView}">
+					<c:if test="${symbol_pound}{isMessage}">
+						<h:outputText rendered="${symbol_pound}{entity[field][childField] != null and entity[field][childField].toString() == 'true'}" value="${symbol_pound}{messages['commons.yes']}" />
+						<h:outputText rendered="${symbol_pound}{entity[field][childField] != null and entity[field][childField].toString() == 'false'}" value="${symbol_pound}{messages['commons.no']}" />
+						<h:outputText rendered="${symbol_pound}{entity[field][childField] != null and entity[field][childField].toString() != 'true' and entity[field][childField].toString() != 'false'}" value="${symbol_pound}{messages[entity[field][childField]]}" />
+					</c:if>
+					<h:outputText rendered="${symbol_pound}{!isMessage}" value="${symbol_pound}{entity[field][childField]}" />
+				</c:if>
+				<!-- If entityView provided then show link to childField entity page. -->
+				<c:if test="${symbol_pound}{not empty entityView and not exportable}">
+					<hf:linkToEntity linkId="${symbol_pound}{field}_${symbol_pound}{childField}_message_link" rendered="${symbol_pound}{isMessage}" entity="${symbol_pound}{entity[field]}" popupFields="${symbol_pound}{popupFields}" entityId="${symbol_pound}{entity[field][childFieldId]}" value="${symbol_pound}{messages[entity[field][childField]]}" view="${symbol_pound}{entityView}"/>
+					<hf:linkToEntity linkId="${symbol_pound}{field}_${symbol_pound}{childField}_link" rendered="${symbol_pound}{not isMessage}" entity="${symbol_pound}{entity[field]}" popupFields="${symbol_pound}{popupFields}" entityId="${symbol_pound}{entity[field][childFieldId]}" value="${symbol_pound}{entity[field][childField]}" view="${symbol_pound}{entityView}"/>
+				</c:if>
+				<!-- Special case workaround for exportable entity column. It needs to be copied from hf:linkToEntity, because Exporter does not recognize 
+					composite component (http://code.google.com/p/primefaces/issues/detail?id=1797) 
+					If in the future this could be fixed somehow, this part could be removed and only normal hf:linkToEntity component could be left-->
+				<c:if test="${symbol_pound}{not empty entityView and exportable}">
+					<c:if test="${symbol_pound}{isMessage}">
+						<h:link id="${symbol_pound}{field}_${symbol_pound}{childField}_message_link" value="${symbol_pound}{messages[entity[field][childField]]}" outcome="${symbol_pound}{entityView}" >
+				    		<f:param name="objectId" value="${symbol_pound}{entity[field][childFieldId]}" />
+				    	</h:link>
+				    	<p:tooltip rendered="${symbol_pound}{not empty popupFields}" for="${symbol_pound}{field}_${symbol_pound}{childField}_message_link" showEffect="slide" hideEffect="slide">
+							<ui:repeat value="${symbol_pound}{popupFields.split(',')}" var="entityFields">
+				               	<h:outputText style="white-space:nowrap" value="${symbol_pound}{entity[field][entityFields]}" /><br/>
+				            </ui:repeat>
+				        </p:tooltip>
+				     </c:if>
+					<c:if test="${symbol_pound}{not isMessage}">
+						<h:link id="${symbol_pound}{field}_${symbol_pound}{childField}_message_link" value="${symbol_pound}{entity[field][childField]}" outcome="${symbol_pound}{entityView}" >
+				    		<f:param name="objectId" value="${symbol_pound}{entity[field][childFieldId]}" />
+				    	</h:link>
+				    	<p:tooltip rendered="${symbol_pound}{not empty popupFields}" for="${symbol_pound}{field}_${symbol_pound}{childField}_message_link" showEffect="slide" hideEffect="slide">
+							<ui:repeat value="${symbol_pound}{popupFields.split(',')}" var="entityFields">
+				               	<h:outputText style="white-space:nowrap" value="${symbol_pound}{entity[field][entityFields]}" /><br/>
+				            </ui:repeat>
+				        </p:tooltip>
+				     </c:if>
+				</c:if>
+			</c:if>
+
+			<!-- If its list then run through it and show results. -->
+			<c:if test="${symbol_pound}{isList}">
+				<c:set var="list" value="${symbol_pound}{entity[field]}" />
+				<ui:repeat value="${symbol_pound}{entity[field]}" var="c">
+					<!-- If childField ID is not provided then we dont need link to entity page. -->
+					<c:if test="${symbol_pound}{empty entityView}">
+						<c:if test="${symbol_pound}{isMessage}">
+							<h:outputText rendered="${symbol_pound}{c[childField] != null and c[childField].toString() == 'true'}" value="${symbol_pound}{messages['commons.yes']}" />
+							<h:outputText rendered="${symbol_pound}{c[childField] != null and c[childField].toString() == 'false'}" value="${symbol_pound}{messages['commons.no']}" />
+							<h:outputText rendered="${symbol_pound}{c[childField] != null and c[childField].toString() != 'true' and c[childField].toString() != 'false'}" value="${symbol_pound}{messages[c[childField]]}" />
+						</c:if>
+						<h:outputText rendered="${symbol_pound}{not isMessage}" value="${symbol_pound}{c[childField]}" />
+					</c:if>
+					<!-- If entityView provided then show link to childField entity page. -->
+					<c:if test="${symbol_pound}{not empty entityView}">
+						<hf:linkToEntity linkId="${symbol_pound}{field}_${symbol_pound}{childField}_message_link" rendered="${symbol_pound}{isMessage}" entityId="${symbol_pound}{c[childFieldId]}" entity="${symbol_pound}{c}" popupFields="${symbol_pound}{popupFields}" value="${symbol_pound}{c[childField]}" view="${symbol_pound}{entityView}"/>
+						<hf:linkToEntity linkId="${symbol_pound}{field}_${symbol_pound}{childField}_link" rendered="${symbol_pound}{not isMessage}" entity="${symbol_pound}{c}" popupFields="${symbol_pound}{popupFields}" entityId="${symbol_pound}{c[childFieldId]}" value="${symbol_pound}{c[childField]}" view="${symbol_pound}{entityView}"/>
+					</c:if>
+					<br />
+				</ui:repeat>
+			</c:if>
+		</c:if>
+		<ui:insert />
+	</p:column>
+
+</ui:composition>
+
+</html>

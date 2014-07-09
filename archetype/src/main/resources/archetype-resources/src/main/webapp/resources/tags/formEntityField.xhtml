@@ -1,0 +1,54 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets" 
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" 
+	xmlns:p="http://primefaces.org/ui"  
+	xmlns:cc="http://xmlns.jcp.org/jsf/composite">
+
+	<cc:interface componentType="formEntityField">
+		<cc:attribute name="label" required="true" />
+		<cc:attribute name="field" required="true" />
+		<cc:attribute name="backingBean" required="false" />
+		<cc:attribute name="entity" required="false" />
+		<cc:attribute name="childField" required="true" />
+		<cc:attribute name="required" default="false" />
+		<cc:attribute name="size" default="20" />
+		<cc:attribute name="popup" default="false" />
+		<cc:attribute name="disabled" default="false" />
+		<cc:attribute name="listBean" />
+		<cc:attribute name="edit" />
+	</cc:interface>
+
+
+	<cc:implementation>
+		<ui:fragment rendered="${symbol_pound}{cc.attrs.popup}">
+				<p:outputLabel for="${symbol_pound}{cc.attrs.id}" value="${symbol_pound}{cc.attrs.label}" />
+				<p:inputText id="${symbol_pound}{cc.attrs.id}" rendered="${symbol_pound}{cc.editMode}" value="${symbol_pound}{cc.entityFromBackingBeanOrAttribute[cc.attrs.field][cc.attrs.childField]}" required="${symbol_pound}{cc.attrs.required}" size="${symbol_pound}{cc.attrs.size}" disabled="true" />
+				<p:commandButton rendered="${symbol_pound}{cc.editMode}" id="selectLink" onclick="PF('dlg').show();" icon="ui-icon-search" />
+				<p:tooltip for="selectLink" value="${symbol_pound}{messages['commons.search']}" />
+				<h:outputText rendered="${symbol_pound}{not cc.editMode}" value="${symbol_pound}{cc.entityFromBackingBeanOrAttribute[cc.attrs.field][cc.attrs.childField]}" style="font-weight:bold;" />
+		</ui:fragment>
+		
+		<ui:fragment rendered="${symbol_pound}{not cc.attrs.popup}">
+
+			<!-- if service is set, then load list of all entities from db and show as drop down list -->
+			<ui:fragment rendered="${symbol_pound}{!empty cc.attrs.listBean}">
+					<p:outputLabel for="${symbol_pound}{cc.attrs.id}_level" value="${symbol_pound}{cc.attrs.label}" />
+					<p:selectOneMenu rendered="${symbol_pound}{cc.editMode}" id="${symbol_pound}{cc.attrs.id}_level" value="${symbol_pound}{cc.entityFromBackingBeanOrAttribute[cc.attrs.field]}" required="${symbol_pound}{cc.attrs.required}" styleClass="input-medium">
+						<f:selectItem itemLabel="" itemValue="" />
+						<f:selectItems value="${symbol_pound}{cc.attrs.listBean.listAll()}" var="elem" itemLabel="${symbol_pound}{elem[cc.attrs.childField]}" itemValue="${symbol_pound}{elem}" />
+						<f:converter binding="${symbol_pound}{entityConverter}" />
+					</p:selectOneMenu>
+					<h:outputText rendered="${symbol_pound}{not cc.editMode}" value="${symbol_pound}{cc.entityFromBackingBeanOrAttribute[cc.attrs.field][cc.attrs.childField]}" style="font-weight:bold;" />
+			</ui:fragment>
+
+		</ui:fragment>
+	</cc:implementation>
+
+</html>

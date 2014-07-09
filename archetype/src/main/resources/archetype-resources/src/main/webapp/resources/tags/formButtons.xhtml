@@ -1,0 +1,41 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+		xmlns:h="http://xmlns.jcp.org/jsf/html"
+		xmlns:f="http://xmlns.jcp.org/jsf/core"
+	    xmlns:p="http://primefaces.org/ui"
+		xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+		xmlns:hf="http://xmlns.jcp.org/jsf/composite/tags"
+		xmlns:cc="http://xmlns.jcp.org/jsf/composite">
+		
+	<cc:interface>
+		<cc:attribute name="backingBean" required="true" />
+		<cc:attribute name="ajaxSubmit" required="true" />
+		<cc:attribute name="columns" required="true" />
+	</cc:interface>
+	
+	<cc:implementation>
+		
+		<h:panelGrid columns="${symbol_pound}{cc.attrs.columns}">
+			<p:button value="${symbol_pound}{messages['commons.edit']}" rendered="${symbol_pound}{not cc.attrs.backingBean.edit}">
+				<f:param name="edit" value="true"/>
+				<f:param name="objectId" value="${symbol_pound}{cc.attrs.backingBean.objectId}" />
+			</p:button>
+			<p:commandButton rendered="${symbol_pound}{cc.attrs.backingBean.edit}" value="${symbol_pound}{messages['action.save']}" action="${symbol_pound}{cc.attrs.backingBean.save}" icon="ui-icon-check" ajax="${symbol_pound}{cc.attrs.ajaxSubmit}" />
+			
+			<cc:insertChildren />
+			
+			<hf:clearButton label="${symbol_pound}{messages['action.reset']}" resetAction="${symbol_pound}{cc.attrs.backingBean.resetFormEntity()}" rendered="${symbol_pound}{cc.attrs.edit}" />
+			
+			<p:commandButton value="${symbol_pound}{messages['action.back']}" action="${symbol_pound}{cc.attrs.backingBean.getListViewName()}" immediate="true" />
+			
+		</h:panelGrid>
+	    
+	</cc:implementation>
+
+</html>

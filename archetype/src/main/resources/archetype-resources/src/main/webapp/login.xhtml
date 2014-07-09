@@ -1,0 +1,23 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="templates/logintemplate.xhtml">
+    <ui:param name="pageTitle" value="${symbol_pound}{messages['login.title']}" />
+    <ui:define name="content">
+         <h:form id="loginForm" prependId="false">
+             <p:messages showDetail="false"/>
+             <h:panelGrid columns="2">
+                 <p:outputLabel for="j_username" value="${symbol_pound}{messages['login.username']}: "/>
+                 <p:inputText id="j_username" name="j_username" required="true" requiredMessage="${symbol_pound}{messages['login.usernameRequired']}"/>
+                 <p:outputLabel for="j_password" value="${symbol_pound}{messages['login.password']}: "/>
+                 <p:password id="j_password" name="j_username" required="true"  requiredMessage="${symbol_pound}{messages['login.passwordRequired']}"/>
+                 <p:commandButton id="Ok" value="${symbol_pound}{messages['login.button']}" action="${symbol_pound}{loginBean.doLogin()}" ajax="false"/>
+             </h:panelGrid>
+         </h:form>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,28 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+		xmlns:h="http://xmlns.jcp.org/jsf/html"
+		xmlns:f="http://xmlns.jcp.org/jsf/core"
+	    xmlns:p="http://primefaces.org/ui"
+		xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+		xmlns:cc="http://xmlns.jcp.org/jsf/composite">
+		
+	<cc:interface>
+		<cc:attribute name="label" required="true" />
+		<cc:attribute name="resetAction" required="true" method-signature="void reset()"/> />
+	</cc:interface>
+	
+	<cc:implementation>
+		
+		<p:commandButton value="${symbol_pound}{cc.attrs.label}" process="@this" update="@form" action="${symbol_pound}{cc.attrs.resetAction}" >
+			<f:actionListener type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
+		</p:commandButton>
+			
+	</cc:implementation>
+
+</html>

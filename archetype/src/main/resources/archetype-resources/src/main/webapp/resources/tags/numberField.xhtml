@@ -1,0 +1,46 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+		xmlns:h="http://xmlns.jcp.org/jsf/html"
+		xmlns:f="http://xmlns.jcp.org/jsf/core"
+	    xmlns:p="http://primefaces.org/ui"
+		xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+		xmlns:cc="http://xmlns.jcp.org/jsf/composite">
+
+	<cc:interface componentType="searchField">
+		<cc:attribute name="converterId" required="true" />
+	</cc:interface>
+	
+	<cc:implementation>
+		<ui:fragment rendered="${symbol_pound}{not cc.parent.attrs.rangeSearch}">
+			<h:panelGrid columns="2">
+		    	<p:outputLabel for="${symbol_pound}{cc.parent.attrs.field}_number" value="${symbol_pound}{cc.parent.attrs.label}" />
+		        <p:inputText id="${symbol_pound}{cc.parent.attrs.field}_number" value="${symbol_pound}{cc.parent.filters[cc.parent.attrs.field]}" size="5" disabled="${symbol_pound}{cc.parent.attrs.disabled}" >
+		        	<f:converter converterId="${symbol_pound}{cc.attrs.converterId}"/>
+		        </p:inputText>
+		    </h:panelGrid>
+		</ui:fragment>
+		<ui:fragment rendered="${symbol_pound}{cc.parent.attrs.rangeSearch}">
+			<h:panelGrid columns="2">
+				<p:outputLabel for="fromRangeField_${symbol_pound}{cc.parent.attrs.field}" value="${symbol_pound}{cc.parent.attrs.label}" />  
+			    <h:panelGrid columns="4">
+			        <p:inputText id="fromRangeField_${symbol_pound}{cc.parent.attrs.field}" label="${symbol_pound}{cc.parent.attrs.label}" value="${symbol_pound}{cc.parent.filters[cc.fromRangeSearchFilterNameFromParent]}" size="5" disabled="${symbol_pound}{cc.parent.attrs.disabled}">
+			        	<f:converter converterId="${symbol_pound}{cc.attrs.converterId}"/>
+			        </p:inputText>
+			         <p:watermark for="fromRangeField_${symbol_pound}{cc.parent.attrs.field}" value="${symbol_pound}{messages['commons.from']}" />
+			        
+			        <p:inputText id="toRangeField_${symbol_pound}{cc.parent.attrs.field}" label="${symbol_pound}{cc.parent.attrs.label}" value="${symbol_pound}{cc.parent.attrs.filters[cc.toRangeSearchFilterNameFromParent]}" size="5" disabled="${symbol_pound}{cc.parent.attrs.disabled}" >
+			        	<f:converter converterId="${symbol_pound}{cc.attrs.converterId}"/>
+			        </p:inputText>
+			        <p:watermark for="toRangeField_${symbol_pound}{cc.parent.attrs.field}" value="${symbol_pound}{messages['commons.to']}" />  
+			    </h:panelGrid>
+			</h:panelGrid>
+		</ui:fragment>
+	</cc:implementation>
+	
+</html>

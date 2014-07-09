@@ -1,0 +1,60 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+        http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
+    version="2.2">
+    
+	<lifecycle>
+		<phase-listener>${package}.jsf.listener.LoginErrorPhaseListener</phase-listener>
+	</lifecycle>
+
+	<!-- JSF and Spring are integrated -->
+	<application>
+			<message-bundle>
+                messages
+            </message-bundle>
+			<locale-config>
+				<supported-locale>en</supported-locale>
+				<supported-locale>lt</supported-locale>
+			</locale-config>
+			<resource-bundle>
+				<base-name>messages</base-name>
+				<var>messages</var>
+			</resource-bundle>
+			<el-resolver>
+				org.springframework.web.jsf.el.SpringBeanFacesELResolver
+			</el-resolver>
+	</application>
+	
+    <lifecycle>
+	    <phase-listener>${package}.utils.PhaseListenerImpl</phase-listener>
+	</lifecycle>
+	
+	<factory>
+        <exception-handler-factory>
+            ${package}.jsf.exceptionhandler.HappyFacesExceptionHandlerFactory
+        </exception-handler-factory>
+	</factory>
+	
+	<!-- configuration of navigation rules -->
+	<navigation-rule>
+		<from-view-id>/*</from-view-id>
+		<navigation-case>
+			<from-outcome>customers</from-outcome>
+			<to-view-id>/pages/customers.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>accounts</from-outcome>
+			<to-view-id>/pages/accounts.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>operations</from-outcome>
+			<to-view-id>/pages/operations.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+
+</faces-config>
