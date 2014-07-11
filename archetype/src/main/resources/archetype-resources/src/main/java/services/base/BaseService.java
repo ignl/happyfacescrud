@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.TypeVariable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -20,6 +21,7 @@ import ${package}.customrepository.GenericRepository;
 import ${package}.domain.base.BaseEntity;
 import ${package}.domain.base.IEntity;
 import ${package}.jsf.datatable.PaginationConfiguration;
+
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -208,9 +210,10 @@ public abstract class BaseService<T extends IEntity> implements IService<T>, Ser
 
         Map<String, Object> filters = config.getFilters();
         if (filters != null) {
-            // first we process nonstandard filters
-            List<String> filtersToRemove = processNonStandardFilters(filters, entityPath);
-            filters = removeUsedFilters(filtersToRemove, filters);
+        	// first we process nonstandard filters
+            List<String> filtersToRemove = new ArrayList<String>();
+            predicate = processNonStandardFilters(filters, filtersToRemove, entityPath);
+            removeUsedFilters(filtersToRemove, filters);
             if (!filters.isEmpty()) {
                 for (Map.Entry<String, Object> entry : filters.entrySet()) {
                     String key = entry.getKey();
@@ -278,15 +281,15 @@ public abstract class BaseService<T extends IEntity> implements IService<T>, Ser
     }
 
     /**
-     * This method groups some filters to one. This might be needed when several
-     * filters are dependent on each other, for example when we have several
-     * text fields and we want all of them to participate in search and we need
-     * OR functionality between them.
+     * This method groups some filters to one. This might be needed when several filters are dependent on each other,
+     * for example when we have several text fields and we want all of them to participate in search and we need OR
+     * functionality between them. Do not forget to remove filters so getPredicate() method would not try to process them again.
      * 
      * @return processed filters keys.
      */
-    protected List<String> processNonStandardFilters(Map<String, Object> filters, @SuppressWarnings("rawtypes") PathBuilder pathBuilder) {
-        return Collections.emptyList();
+    protected BooleanExpression processNonStandardFilters(Map<String, Object> filters, List<String> filtersToRemove,
+            @SuppressWarnings("rawtypes") PathBuilder pathBuilder) {
+        return null;
     }
 
     /**

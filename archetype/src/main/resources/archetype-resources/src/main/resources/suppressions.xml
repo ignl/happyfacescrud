@@ -12,9 +12,5 @@
     <suppress files=".*Test${symbol_escape}.java" checks="."/>
 	
 	<!-- do not check query dsl generated classes.. -->
-    <suppress files="QBaseEntity${symbol_escape}.java" checks="."/> 
-    <suppress files="QCustomer${symbol_escape}.java" checks="."/> 
-    <suppress files="QIncident${symbol_escape}.java" checks="."/> 
-    <suppress files="QTimelineEntry${symbol_escape}.java" checks="."/> 
-    <suppress files="QUser${symbol_escape}.java" checks="."/> 
+    <suppress files="Q.*\.java" checks="."/> 
 </suppressions>
