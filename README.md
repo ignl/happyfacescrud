@@ -1,20 +1,20 @@
 <img src="https://travis-ci.org/ignl/happyfacescrud.svg?branch=master" />
 
-= Quick startup =
+'''Quick startup'''
 <code>
 mvn archetype:generate -DarchetypeGroupId=com.github.happyfaces -DarchetypeArtifactId=happyfaces-archetype -DarchetypeVersion=1.0.2 -DgroupId=com.test -DartifactId=MyTestApp
 </code>
 
-= Tutorial =
+'''Tutorial'''
 http://intelligentjava.wordpress.com/2014/07/11/happyfaces-archetype-tutorial-easy-jsf-with-custom-components/
 
-= More info =
+'''More info'''
 https://github.com/ignl/happyfacescrud/wiki
 
-= Features =
+'''Features'''
 
-  * Setuped Spring and JSF project with all configuration. Saves a lot of work for the project startup.
-  * Quite some jsf composite components which works well with standard backing beans and allows to create crud pages in very fast and easy way without loosing flexibility and ability to customize to your requirements (which is often a trade off with code generation tools).
+  * Setup Spring and JSF project with all configuration. Saves a lot of work for the project startup.
+  * Quite some Jsf composite components which works well with standard backing beans and allows to create crud pages in very fast and easy way without loosing flexibility and ability to customize to your requirements (which is often a trade off with code generation tools).
   * Jsf composite components are easily accessible and can be modified themselves (add new parameter or change logic) or can be used as example to start new components without any additional work on configuration etc.
   * Spring data and Query DSL setup.
   * Dynamic query for search which means no need to write your own query for each different set of search fields.
