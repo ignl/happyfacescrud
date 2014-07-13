@@ -1,17 +1,17 @@
 <img src="https://travis-ci.org/ignl/happyfacescrud.svg?branch=master" />
 
-<b>Quick startup</b></br>
+<b>Quick startup</b><br/>
 <code>
 mvn archetype:generate -DarchetypeGroupId=com.github.happyfaces -DarchetypeArtifactId=happyfaces-archetype -DarchetypeVersion=1.0.2 -DgroupId=com.test -DartifactId=MyTestApp
 </code>
 
-<b>Tutorial</b></br>
+<b>Tutorial</b><br/>
 http://intelligentjava.wordpress.com/2014/07/11/happyfaces-archetype-tutorial-easy-jsf-with-custom-components/
 
-<b>More info</b></br>
+<b>More info</b><br/>
 https://github.com/ignl/happyfacescrud/wiki
 
-<b>Features</b></br>
+<b>Features</b><br/>
 
   * Setup Spring and JSF project with all configuration. Saves a lot of work for the project startup.
   * Quite some Jsf composite components which works well with standard backing beans and allows to create crud pages in very fast and easy way without loosing flexibility and ability to customize to your requirements (which is often a trade off with code generation tools).
