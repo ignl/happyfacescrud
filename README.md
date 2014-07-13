@@ -1,17 +1,17 @@
 <img src="https://travis-ci.org/ignl/happyfacescrud.svg?branch=master" />
 
-'''Quick startup'''
+<b>Quick startup</b></br>
 <code>
 mvn archetype:generate -DarchetypeGroupId=com.github.happyfaces -DarchetypeArtifactId=happyfaces-archetype -DarchetypeVersion=1.0.2 -DgroupId=com.test -DartifactId=MyTestApp
 </code>
 
-'''Tutorial'''
+<b>Tutorial</b></br>
 http://intelligentjava.wordpress.com/2014/07/11/happyfaces-archetype-tutorial-easy-jsf-with-custom-components/
 
-'''More info'''
+<b>More info</b></br>
 https://github.com/ignl/happyfacescrud/wiki
 
-'''Features'''
+<b>Features</b></br>
 
   * Setup Spring and JSF project with all configuration. Saves a lot of work for the project startup.
   * Quite some Jsf composite components which works well with standard backing beans and allows to create crud pages in very fast and easy way without loosing flexibility and ability to customize to your requirements (which is often a trade off with code generation tools).
@@ -21,7 +21,7 @@ https://github.com/ignl/happyfacescrud/wiki
   * Spring security setup and simple JPA login/logout implementation.
   * Change password functionality.
   * Unit/integration tests setup and some tests created.
-  * Lazy Primefaces datatable with pagination and sorting setup with solved issues about working with columns that are in [http://code.google.com/p/primefaces/issues/detail?id=2930 taglibs].
+  * Lazy Primefaces datatable with pagination and sorting setup with solved issues about working with columns that are in <a href=http://code.google.com/p/primefaces/issues/detail?id=2930>taglibs</a>.
   * Spring REST WS setup.
   * File upload setup.
   * Generic converters for all enums and all entities so no need to create a new ones.
