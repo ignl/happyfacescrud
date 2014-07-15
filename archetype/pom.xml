@@ -8,6 +8,8 @@
 	<packaging>maven-archetype</packaging>
 
 	<name>happyfaces-archetype</name>
+	<description>JSF 2.2 / Spring 4 / Tomcat project archetype</description>
+	<url>https://github.com/ignl/happyfacescrud/wiki</url>
 
 	<build>
 
@@ -122,10 +124,6 @@
 			</plugins>
 		</pluginManagement>
 	</build>
-
-	<description>Description</description>
-
-	<url>https://github.com/ignl/happyfacescrud/wiki</url>
 
 	<developers>
 		<developer>
