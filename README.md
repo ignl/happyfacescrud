@@ -26,4 +26,4 @@ https://github.com/ignl/happyfacescrud/wiki
   * File upload setup.
   * Generic converters for all enums and all entities so no need to create a new ones.
   * Maven site and plugins configuration. Reports like findbugs, checkstyle, pmd. Code has 0 issues for findbugs/checkstyle/pmd.
-  * Other small things like clear button component with [http://balusc.blogspot.com/2012/03/reset-non-processed-input-components-on.html Omnifaces], easy fetching by passing only string with field name you need to fetch to BaseService etc..
+  * Other small things like clear button component with <a href=http://balusc.blogspot.com/2012/03/reset-non-processed-input-components-on.html>Omnifaces</a>, easy fetching by passing only string with field name you need to fetch to BaseService etc..
